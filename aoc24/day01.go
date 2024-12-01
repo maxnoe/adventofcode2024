@@ -11,6 +11,10 @@ import (
 	"time"
 )
 
+func init() {
+	AddSolution(1, Day01)
+}
+
 func parseInput(input string) ([]int, []int, error) {
 	var list1 []int
 	var list2 []int

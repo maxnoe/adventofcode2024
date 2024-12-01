@@ -30,13 +30,7 @@ func main() {
 	}
 	log.Println("done")
 
-	switch day {
-	case 1:
-		err = aoc24.Day01(input)
-	default:
-		log.Fatalf("Day %d not yet solved", day)
-	}
-
+	err = aoc24.Solve(day, input);
 	if err != nil {
 		log.Fatalf("Errror solving day %d: %s", day, err)
 	}

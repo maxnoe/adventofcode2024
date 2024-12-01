@@ -27,6 +27,9 @@ func GetInput(day int) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	if res.StatusCode != 200 {
+		return "", errors.New(fmt.Sprintf("Received status code: %d", res.StatusCode))
+	}
 
 	data, err := io.ReadAll(res.Body)
 	if err != nil {
