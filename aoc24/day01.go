@@ -5,15 +5,16 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"sort"
+	"slices"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func parseInput(input string) ([]int, []int, error) {
-	var listOne []int
-	var listTwo []int
-	
+	var list1 []int
+	var list2 []int
+
 	scanner := bufio.NewScanner(strings.NewReader(input))
 	n := 0
 	for scanner.Scan() {
@@ -25,43 +26,98 @@ func parseInput(input string) ([]int, []int, error) {
 				msg := fmt.Sprintf("Expected 2 elements in line %d, got %d", n, len(result))
 				return nil, nil, errors.New(msg)
 			}
-			
-			valA, err := strconv.Atoi(result[0])
-			if err != nil {return nil, nil, err}
-			valB, err := strconv.Atoi(result[1])
-			if err != nil {return nil, nil, err}
 
-			listOne = append(listOne, valA)
-			listTwo = append(listTwo, valB)
+			valA, err := strconv.Atoi(result[0])
+			if err != nil {
+				return nil, nil, err
+			}
+			valB, err := strconv.Atoi(result[1])
+			if err != nil {
+				return nil, nil, err
+			}
+
+			list1 = append(list1, valA)
+			list2 = append(list2, valB)
 		}
-		
+
 	}
 
-	return listOne, listTwo, nil
+	return list1, list2, nil
 }
 
-func part1(listOne []int, listTwo []int) (int, error) {
-	sort.Ints(listOne)
-	sort.Ints(listTwo)
+func part1(list1 []int, list2 []int) (int, error) {
 
 	result := 0
-	for i, val1 := range listOne {
-		val2 := listTwo[i]
+	for i, val1 := range list1 {
+		val2 := list2[i]
 		d := absDiff(val1, val2)
 		result += d
-		log.Printf("%d %d %d %d\n", val1, val2, d, result)
+	}
+
+	return result, nil
+}
+
+func part2(list1 []int, list2 []int) (int, error) {
+
+	result := 0
+	pos2 := 0
+	current_num_start := 0
+
+outer:
+	for _, val1 := range list1 {
+
+		if pos2 >= len(list2) {
+			break
+		}
+
+		for list2[pos2] < val1 {
+			pos2 += 1
+			if pos2 >= len(list2) {
+				continue outer
+			}
+		}
+		current_num_start = pos2
+		count := 0
+		for list2[pos2] == val1 {
+			count += 1
+			pos2 += 1
+			if pos2 >= len(list2) {
+				break
+			}
+		}
+		pos2 = current_num_start
+
+		result += val1 * count
 	}
 
 	return result, nil
 }
 
 func Day01(input string) error {
-	listOne, listTwo, err := parseInput(input)
-	if err != nil {return err}
+	list1, list2, err := parseInput(input)
+	if err != nil {
+		return err
+	}
 
-	val, err := part1(listOne, listTwo)
-	if err != nil {return err}
-	log.Printf("Part 1: %d\n", val);
+	// sort here, both parts profit
+	slices.Sort(list1)
+	slices.Sort(list2)
+
+	start := time.Now()
+	solution1, err := part1(list1, list2)
+	stop := time.Now()
+	if err != nil {
+		return err
+	}
+	log.Printf("Part 1: %d in %d μs\n", solution1, stop.Sub(start).Microseconds())
+
+	start = time.Now()
+	solution2, err := part2(list1, list2)
+	stop = time.Now()
+	if err != nil {
+		return err
+	}
+	log.Printf("Part 2: %d in %d μs\n", solution2, stop.Sub(start).Microseconds())
 
 	return nil
 }

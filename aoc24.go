@@ -9,7 +9,6 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 func main() {
 	godotenv.Load()
 
@@ -24,14 +23,18 @@ func main() {
 		log.Fatalf("Error parsing day as int: %s\n", err)
 	}
 
+	log.Printf("Getting input for day %d\n", day)
 	input, err := aoc24.GetInput(day)
+	log.Println("done")
 	if err != nil {
-		log.Fatalf("Error getting input for day %d: %s\n", 2, err);
+		log.Fatalf("Error getting input for day %d: %s\n", 2, err)
 	}
 
 	switch day {
-	case 1: err = aoc24.Day01(input)
-	default: log.Fatalf("Day %d not yet solved", day)
+	case 1:
+		err = aoc24.Day01(input)
+	default:
+		log.Fatalf("Day %d not yet solved", day)
 	}
 
 	if err != nil {

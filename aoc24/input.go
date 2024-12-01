@@ -12,11 +12,11 @@ func GetInput(day int) (string, error) {
 
 	session := os.Getenv("AOC_SESSION")
 	if session == "" {
-		return  "", errors.New("You need to set the AOC_SESSION to your session cookie.")
+		return "", errors.New("You need to set the AOC_SESSION to your session cookie.")
 	}
 
 	url := fmt.Sprintf("https://adventofcode.com/2024/day/%d/input", day)
-	client := &http.Client{};
+	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return "", err
