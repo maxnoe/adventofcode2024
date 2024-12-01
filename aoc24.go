@@ -25,10 +25,10 @@ func main() {
 
 	log.Printf("Getting input for day %d\n", day)
 	input, err := aoc24.GetInput(day)
-	log.Println("done")
 	if err != nil {
 		log.Fatalf("Error getting input for day %d: %s\n", 2, err)
 	}
+	log.Println("done")
 
 	switch day {
 	case 1:
