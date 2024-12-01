@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -38,5 +37,4 @@ func main() {
 	if err != nil {
 		log.Fatalf("Errror solving day %d: %s", day, err)
 	}
-	fmt.Println(input)
 }
