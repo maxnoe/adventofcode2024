@@ -73,7 +73,7 @@ outer:
 		for list2[pos2] < val1 {
 			pos2 += 1
 			if pos2 >= len(list2) {
-				continue outer
+				break outer
 			}
 		}
 		current_num_start = pos2
