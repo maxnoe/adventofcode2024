@@ -60,6 +60,17 @@ func part1(list1 []int, list2 []int) (int, error) {
 func part2(list1 []int, list2 []int) (int, error) {
 
 	result := 0
+
+	// much simpler, but also much slower
+	// counts := make(map[int]int)
+	// for _, val2 := range list2 {
+	// 	counts[val2] += 1
+	// }
+	// for _, val1 := range list1 {
+	// 	result += val1 * counts[val1]
+	// }
+
+	// doesn't allocate and relies on the list being sorted
 	pos2 := 0
 	current_num_start := 0
 
