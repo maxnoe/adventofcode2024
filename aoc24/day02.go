@@ -9,7 +9,6 @@ import (
 	"time"
 )
 
-
 func Day02ParseInput(input string) ([][]int, error) {
 	data := make([][]int, 0, 50)
 	scanner := bufio.NewScanner(strings.NewReader(input))
@@ -26,7 +25,7 @@ func Day02ParseInput(input string) ([][]int, error) {
 			data[i][j] = val
 		}
 
-		i += 1 
+		i += 1
 	}
 
 	return data, nil
@@ -38,7 +37,7 @@ func Day02ReportSafe(report []int) bool {
 	for i, val := range report[1:] {
 		if diff := absDiff(val, previous); diff == 0 || diff > 3 {
 			return false
-		} 
+		}
 
 		if i == 0 {
 			ascending = val > previous
@@ -55,13 +54,17 @@ func Day02ReportSafe(report []int) bool {
 	return true
 }
 
+func Day02Part1(reports [][]int) int {
+	return CountTrueFunc(reports, Day02ReportSafe)
+}
+
 func Day02ReportSafeWithDampener(report []int) bool {
 	if Day02ReportSafe(report) {
 		return true
 	}
 
 	for i := range len(report) {
-		dampened_report := make([]int, 0, len(report) - 1)
+		dampened_report := make([]int, 0, len(report)-1)
 		dampened_report = append(dampened_report, report[:i]...)
 		dampened_report = append(dampened_report, report[i+1:]...)
 		if Day02ReportSafe(dampened_report) {
@@ -72,27 +75,8 @@ func Day02ReportSafeWithDampener(report []int) bool {
 	return false
 }
 
-func Day02Part1(reports [][]int) int {
-	n_safe := 0
-
-	for _, report := range reports {
-		if Day02ReportSafe(report) {
-			n_safe += 1
-		}
-	}
-	return n_safe
-}
-
-
 func Day02Part2(reports [][]int) int {
-	n_safe := 0
-
-	for _, report := range reports {
-		if Day02ReportSafeWithDampener(report) {
-			n_safe += 1
-		}
-	}
-	return n_safe
+	return CountTrueFunc(reports, Day02ReportSafeWithDampener)
 }
 
 func Day02(input string) error {

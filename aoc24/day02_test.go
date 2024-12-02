@@ -6,7 +6,6 @@ import (
 	"testing"
 )
 
-
 var test_input_string = `7 6 4 2 1
 1 2 7 8 9
 9 7 6 2 1
@@ -15,7 +14,7 @@ var test_input_string = `7 6 4 2 1
 1 3 6 7 9
 `
 
-var test_input = [][]int {
+var test_input = [][]int{
 	{7, 6, 4, 2, 1},
 	{1, 2, 7, 8, 9},
 	{9, 7, 6, 2, 1},
@@ -23,7 +22,6 @@ var test_input = [][]int {
 	{8, 6, 4, 4, 1},
 	{1, 3, 6, 7, 9},
 }
-
 
 func TestDay02ParseInput(t *testing.T) {
 	input, err := Day02ParseInput(test_input_string)
@@ -58,7 +56,6 @@ func TestDay02Part1(t *testing.T) {
 	}
 
 }
-
 
 func TestDay02Part2(t *testing.T) {
 	expected := []bool{true, false, false, true, true, true}

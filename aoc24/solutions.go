@@ -16,4 +16,3 @@ func Solve(day int, input string) error {
 
 	return f(input)
 }
-
