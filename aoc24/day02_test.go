@@ -58,3 +58,20 @@ func TestDay02Part1(t *testing.T) {
 	}
 
 }
+
+
+func TestDay02Part2(t *testing.T) {
+	expected := []bool{true, false, false, true, true, true}
+
+	for i, report := range test_input {
+		if Day02ReportSafeWithDampener(report) != expected[i] {
+			t.Log(fmt.Sprintf("Expected report %d to be %t", i, expected[i]))
+			t.Fail()
+		}
+	}
+
+	if answer := Day02Part2(test_input); answer != 4 {
+		t.Fatalf("Expected 2 safe reports, got %d", answer)
+	}
+
+}

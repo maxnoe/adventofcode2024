@@ -55,11 +55,40 @@ func Day02ReportSafe(report []int) bool {
 	return true
 }
 
+func Day02ReportSafeWithDampener(report []int) bool {
+	if Day02ReportSafe(report) {
+		return true
+	}
+
+	for i := range len(report) {
+		dampened_report := make([]int, 0, len(report) - 1)
+		dampened_report = append(dampened_report, report[:i]...)
+		dampened_report = append(dampened_report, report[i+1:]...)
+		if Day02ReportSafe(dampened_report) {
+			return true
+		}
+	}
+
+	return false
+}
+
 func Day02Part1(reports [][]int) int {
 	n_safe := 0
 
 	for _, report := range reports {
 		if Day02ReportSafe(report) {
+			n_safe += 1
+		}
+	}
+	return n_safe
+}
+
+
+func Day02Part2(reports [][]int) int {
+	n_safe := 0
+
+	for _, report := range reports {
+		if Day02ReportSafeWithDampener(report) {
 			n_safe += 1
 		}
 	}
@@ -77,13 +106,10 @@ func Day02(input string) error {
 	stop := time.Now()
 	log.Printf("Part 1: %d in %d μs\n", solution1, stop.Sub(start).Microseconds())
 
-	// start = time.Now()
-	// solution2, err := Day02Part2(reports)
-	// stop = time.Now()
-	// if err != nil {
-	// 	return err
-	// }
-	// log.Printf("Part 2: %d in %d μs\n", solution2, stop.Sub(start).Microseconds())
+	start = time.Now()
+	solution2 := Day02Part2(reports)
+	stop = time.Now()
+	log.Printf("Part 2: %d in %d μs\n", solution2, stop.Sub(start).Microseconds())
 
 	return nil
 }
