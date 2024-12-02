@@ -15,7 +15,7 @@ func init() {
 	AddSolution(1, Day01)
 }
 
-func parseInput(input string) ([]int, []int, error) {
+func Day01ParseInput(input string) ([]int, []int, error) {
 	var list1 []int
 	var list2 []int
 
@@ -49,7 +49,7 @@ func parseInput(input string) ([]int, []int, error) {
 	return list1, list2, nil
 }
 
-func part1(list1 []int, list2 []int) (int, error) {
+func Day01Part1(list1 []int, list2 []int) (int, error) {
 
 	result := 0
 	for i, val1 := range list1 {
@@ -61,7 +61,7 @@ func part1(list1 []int, list2 []int) (int, error) {
 	return result, nil
 }
 
-func part2(list1 []int, list2 []int) (int, error) {
+func Day01Part2(list1 []int, list2 []int) (int, error) {
 
 	result := 0
 
@@ -109,7 +109,7 @@ outer:
 }
 
 func Day01(input string) error {
-	list1, list2, err := parseInput(input)
+	list1, list2, err := Day01ParseInput(input)
 	if err != nil {
 		return err
 	}
@@ -119,7 +119,7 @@ func Day01(input string) error {
 	slices.Sort(list2)
 
 	start := time.Now()
-	solution1, err := part1(list1, list2)
+	solution1, err := Day01Part1(list1, list2)
 	stop := time.Now()
 	if err != nil {
 		return err
@@ -127,7 +127,7 @@ func Day01(input string) error {
 	log.Printf("Part 1: %d in %d μs\n", solution1, stop.Sub(start).Microseconds())
 
 	start = time.Now()
-	solution2, err := part2(list1, list2)
+	solution2, err := Day01Part2(list1, list2)
 	stop = time.Now()
 	if err != nil {
 		return err
