@@ -70,5 +70,4 @@ func TestDay02Part2(t *testing.T) {
 	if answer := Day02Part2(test_input); answer != 4 {
 		t.Fatalf("Expected 2 safe reports, got %d", answer)
 	}
-
 }
