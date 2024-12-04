@@ -86,7 +86,7 @@ func Day03Part1(instructions []Instruction) int {
 
 func Day03Part2(instructions []Instruction) int {
 	result := 0
-	do := 0
+	do := 1
 	for _, instr := range instructions {
 		switch instr.typ {
 		case DO:
