@@ -73,7 +73,7 @@ func nextDirection(dir GuardDirection) GuardDirection {
 }
 
 
-func Day06Part1(obstructions Lab, guard Guard) int {
+func visitedFields(obstructions Lab, guard Guard) Lab {
 	n_rows := len(obstructions)
 	n_cols := len(obstructions[0])
 	visited := make(Lab, n_rows)
@@ -111,6 +111,12 @@ func Day06Part1(obstructions Lab, guard Guard) int {
 		}
 	}
 
+	return visited
+}
+
+
+func Day06Part1(obstructions Lab, guard Guard) int {
+	visited := visitedFields(obstructions, guard)
 	return countTrue(visited)
 }
 
@@ -167,11 +173,12 @@ func isLoop(obsRow int, obsCol int, obstructions Lab, guard Guard) bool {
 func Day06Part2(obstructions Lab, guard Guard) int {
 	n_rows := len(obstructions)
 	n_cols := len(obstructions[0])
+	visted := visitedFields(obstructions, guard)
 
 	n := 0
 	for row := range n_rows {
 		for col := range n_cols {
-			if !obstructions[row][col] {
+			if !obstructions[row][col] && visted[row][col] {
 				if isLoop(row, col, obstructions, guard) {
 					n += 1
 				}
