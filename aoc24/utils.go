@@ -11,7 +11,6 @@ func AssertEqual[T comparable](t *testing.T, actual T, expected T) {
 	}
 }
 
-
 func AbsDiff(x, y int) int {
 	if x < y {
 		return y - x

@@ -21,8 +21,7 @@ func SolveDay(day int, input string) error {
 	return f(input)
 }
 
-
-func Solve[I any](input_string string, parse func(string) (I, error), part1 func(I) (int, error), part2 func(I) (int, error) ) error {
+func Solve[I any](input_string string, parse func(string) (I, error), part1 func(I) (int, error), part2 func(I) (int, error)) error {
 	input, err := parse(input_string)
 	if err != nil {
 		return fmt.Errorf("Error parsing input: %v", err)

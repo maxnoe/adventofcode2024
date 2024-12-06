@@ -6,27 +6,26 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 type GuardDirection int8
 
 const (
-	UP GuardDirection = '^'
-	DOWN = 'v'
-	LEFT = '<'
-	RIGHT = '>'
+	UP    GuardDirection = '^'
+	DOWN                 = 'v'
+	LEFT                 = '<'
+	RIGHT                = '>'
 )
 
-type Lab [][]bool 
+type Lab [][]bool
 
 type Guard struct {
-	row int
-	col int
+	row       int
+	col       int
 	direction GuardDirection
 }
 
 type Input struct {
 	obstructions Lab
-	guard Guard
+	guard        Guard
 }
 
 func Parse(input string) (Input, error) {
@@ -36,7 +35,7 @@ func Parse(input string) (Input, error) {
 
 	for i, line := range lines {
 		lab[i] = make([]bool, len(line))
-		for j, chr :=  range line {
+		for j, chr := range line {
 			switch chr {
 			case '#':
 				lab[i][j] = true
@@ -48,7 +47,6 @@ func Parse(input string) (Input, error) {
 
 	return Input{lab, guard}, nil
 }
-
 
 func countTrue(lab Lab) int {
 	n := 0
@@ -62,21 +60,19 @@ func countTrue(lab Lab) int {
 	return n
 }
 
-
 func nextDirection(dir GuardDirection) GuardDirection {
 	switch dir {
 	case UP:
 		return RIGHT
 	case RIGHT:
 		return DOWN
-	case DOWN: 
+	case DOWN:
 		return LEFT
 	case LEFT:
 		return UP
 	}
 	panic("Invalid direction")
 }
-
 
 func visitedFields(obstructions Lab, guard Guard) Lab {
 	n_rows := len(obstructions)
@@ -88,26 +84,34 @@ func visitedFields(obstructions Lab, guard Guard) Lab {
 
 	visited[guard.row][guard.col] = true
 
-	loop:
+loop:
 	for {
 		dcol := 0
 		drow := 0
 		switch guard.direction {
 		case UP:
 			drow = -1
-			if guard.row + drow < 0 { break loop}
+			if guard.row+drow < 0 {
+				break loop
+			}
 		case DOWN:
 			drow = 1
-			if guard.row + drow >= n_rows { break loop}
+			if guard.row+drow >= n_rows {
+				break loop
+			}
 		case LEFT:
 			dcol = -1
-			if guard.col + dcol < 0 { break loop }
+			if guard.col+dcol < 0 {
+				break loop
+			}
 		case RIGHT:
 			dcol = 1
-			if guard.col + dcol >= n_cols { break loop }
+			if guard.col+dcol >= n_cols {
+				break loop
+			}
 		}
 
-		if obstructions[guard.row + drow][guard.col + dcol] {
+		if obstructions[guard.row+drow][guard.col+dcol] {
 			guard.direction = nextDirection(guard.direction)
 		} else {
 			guard.row = guard.row + drow
@@ -119,12 +123,10 @@ func visitedFields(obstructions Lab, guard Guard) Lab {
 	return visited
 }
 
-
 func Part1(input Input) (int, error) {
 	visited := visitedFields(input.obstructions, input.guard)
 	return countTrue(visited), nil
 }
-
 
 func isLoop(obsRow int, obsCol int, obstructions Lab, guard Guard) bool {
 	n_rows := len(obstructions)
@@ -139,24 +141,24 @@ func isLoop(obsRow int, obsCol int, obstructions Lab, guard Guard) bool {
 
 		switch guard.direction {
 		case UP:
-			newRow  -= 1
+			newRow -= 1
 			if newRow < 0 {
-				return false 
+				return false
 			}
 		case DOWN:
 			newRow += 1
 			if newRow >= n_rows {
-				return false 
+				return false
 			}
 		case LEFT:
 			newCol -= 1
 			if newCol < 0 {
-				return false 
+				return false
 			}
 		case RIGHT:
 			newCol += 1
 			if newCol >= n_cols {
-				return false 
+				return false
 			}
 		}
 
@@ -172,7 +174,6 @@ func isLoop(obsRow int, obsCol int, obstructions Lab, guard Guard) bool {
 		}
 	}
 }
-
 
 func Part2(input Input) (int, error) {
 	obstructions := input.obstructions
