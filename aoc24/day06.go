@@ -26,7 +26,7 @@ type Guard struct {
 
 func Day06ParseInput(input string) (Lab, Guard) {
 	guard := Guard{}
-	lines := strings.Split(input, "\n")
+	lines := strings.Split(strings.TrimSpace(input), "\n")
 	lab := make(Lab, len(lines))
 
 	for i, line := range lines {
@@ -114,6 +114,74 @@ func Day06Part1(obstructions Lab, guard Guard) int {
 	return countTrue(visited)
 }
 
+
+
+func isLoop(obsRow int, obsCol int, obstructions Lab, guard Guard) bool {
+	n_rows := len(obstructions)
+	n_cols := len(obstructions[0])
+
+	visited := make(map[Guard]bool)
+	visited[guard] = true
+
+	for {
+		newCol := guard.col
+		newRow := guard.row
+
+		switch guard.direction {
+		case UP:
+			newRow  -= 1
+			if newRow < 0 {
+				return false 
+			}
+		case DOWN:
+			newRow += 1
+			if newRow >= n_rows {
+				return false 
+			}
+		case LEFT:
+			newCol -= 1
+			if newCol < 0 {
+				return false 
+			}
+		case RIGHT:
+			newCol += 1
+			if newCol >= n_cols {
+				return false 
+			}
+		}
+
+		if obstructions[newRow][newCol] || (newCol == obsCol && newRow == obsRow) {
+			guard.direction = nextDirection(guard.direction)
+		} else {
+			guard.row = newRow
+			guard.col = newCol
+			if visited[guard] {
+				return true
+			}
+			visited[guard] = true
+		}
+	}
+}
+
+
+func Day06Part2(obstructions Lab, guard Guard) int {
+	n_rows := len(obstructions)
+	n_cols := len(obstructions[0])
+
+	n := 0
+	for row := range n_rows {
+		for col := range n_cols {
+			if !obstructions[row][col] {
+				if isLoop(row, col, obstructions, guard) {
+					n += 1
+				}
+			}
+		}
+	}
+
+	return n
+}
+
 func Day06(input string) error {
 	lab, guard := Day06ParseInput(input)
 
@@ -122,10 +190,10 @@ func Day06(input string) error {
 	stop := time.Now()
 	log.Printf("Part 1: %d in %d μs\n", solution1, stop.Sub(start).Microseconds())
 
-	// start = time.Now()
-	// solution2 := Day04Part2(grid)
-	// stop = time.Now()
-	// log.Printf("Part 2: %d in %d μs\n", solution2, stop.Sub(start).Microseconds())
+	start = time.Now()
+	solution2 := Day06Part2(lab, guard)
+	stop = time.Now()
+	log.Printf("Part 2: %d in %d μs\n", solution2, stop.Sub(start).Microseconds())
 	return nil
 }
 

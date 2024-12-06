@@ -25,3 +25,9 @@ func TestDay06Part1(t *testing.T) {
 
 	assertEqual(t, Day06Part1(lab, guard), 41)
 }
+
+func TestDay06Part2(t *testing.T) {
+	lab, guard := Day06ParseInput(test_input_06)
+
+	assertEqual(t, Day06Part2(lab, guard), 6)
+}
