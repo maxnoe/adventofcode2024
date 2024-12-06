@@ -1,6 +1,18 @@
 package aoc24
 
-func absDiff(x, y int) int {
+import (
+	"testing"
+)
+
+func AssertEqual[T comparable](t *testing.T, actual T, expected T) {
+	t.Helper()
+	if actual != expected {
+		t.Fatalf("Expected %v, got %v", expected, actual)
+	}
+}
+
+
+func AbsDiff(x, y int) int {
 	if x < y {
 		return y - x
 	}

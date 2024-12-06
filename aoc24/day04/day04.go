@@ -1,14 +1,14 @@
-package aoc24
+package day04
 
 import (
 	"bufio"
-	"log"
 	"slices"
 	"strings"
-	"time"
+
+	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-func Day04ParseInput(input string) [][]rune {
+func ParseInput(input string) ([][]rune, error) {
 	grid := make([][]rune, 0, 0)
 
 	scanner := bufio.NewScanner(strings.NewReader(input))
@@ -16,7 +16,7 @@ func Day04ParseInput(input string) [][]rune {
 		grid = append(grid, []rune(strings.TrimSpace(scanner.Text())))
 	}
 
-	return grid
+	return grid, nil
 }
 
 var XMAS = []rune("XMAS")
@@ -118,7 +118,7 @@ func checkCross(grid [][]rune, i int, j int) bool {
 	return false
 }
 
-func Day04Part1(grid [][]rune) int {
+func Part1(grid [][]rune) (int, error) {
 	n := 0
 	n_rows := len(grid)
 	n_cols := len(grid[0])
@@ -127,10 +127,10 @@ func Day04Part1(grid [][]rune) int {
 			n += checkXMAS(grid, i, j)
 		}
 	}
-	return n
+	return n, nil
 }
 
-func Day04Part2(grid [][]rune) int {
+func Part2(grid [][]rune) (int, error) {
 	n := 0
 	n_rows := len(grid)
 	n_cols := len(grid[0])
@@ -141,25 +141,13 @@ func Day04Part2(grid [][]rune) int {
 			}
 		}
 	}
-	return n
+	return n, nil
 }
 
 func Day04(input string) error {
-	grid := Day04ParseInput(input)
-
-	start := time.Now()
-	solution1 := Day04Part1(grid)
-	stop := time.Now()
-	log.Printf("Part 1: %d in %d μs\n", solution1, stop.Sub(start).Microseconds())
-
-	start = time.Now()
-	solution2 := Day04Part2(grid)
-	stop = time.Now()
-	log.Printf("Part 2: %d in %d μs\n", solution2, stop.Sub(start).Microseconds())
-
-	return nil
+	return aoc24.Solve(input, ParseInput, Part1, Part2)
 }
 
 func init() {
-	AddSolution(4, Day04)
+	aoc24.AddSolution(4, Day04)
 }

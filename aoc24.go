@@ -7,6 +7,11 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/maxnoe/adventofcode2024/aoc24"
+	_ "github.com/maxnoe/adventofcode2024/aoc24/day01"
+	_ "github.com/maxnoe/adventofcode2024/aoc24/day02"
+	_ "github.com/maxnoe/adventofcode2024/aoc24/day03"
+	_ "github.com/maxnoe/adventofcode2024/aoc24/day04"
+	_ "github.com/maxnoe/adventofcode2024/aoc24/day06"
 )
 
 func main() {
@@ -30,7 +35,7 @@ func main() {
 	}
 	log.Println("done")
 
-	err = aoc24.Solve(day, input);
+	err = aoc24.SolveDay(day, input);
 	if err != nil {
 		log.Fatalf("Errror solving day %d: %s", day, err)
 	}

@@ -1,8 +1,10 @@
-package aoc24
+package day06
 
 import (
 	"strings"
 	"testing"
+
+	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
 
@@ -21,13 +23,15 @@ var test_input_06 = strings.TrimSpace(`
 
 
 func TestDay06Part1(t *testing.T) {
-	lab, guard := Day06ParseInput(test_input_06)
+	input, _ := Parse(test_input_06)
 
-	assertEqual(t, Day06Part1(lab, guard), 41)
+	result, _ := Part1(input)
+	aoc24.AssertEqual(t, result , 41)
 }
 
 func TestDay06Part2(t *testing.T) {
-	lab, guard := Day06ParseInput(test_input_06)
+	input, _ := Parse(test_input_06)
 
-	assertEqual(t, Day06Part2(lab, guard), 6)
+	result, _ := Part2(input)
+	aoc24.AssertEqual(t, result, 6)
 }

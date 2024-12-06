@@ -1,11 +1,11 @@
-package aoc24
+package day03
 
 import (
 	"fmt"
-	"log"
 	"regexp"
 	"strconv"
-	"time"
+
+	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
 type InstructionType int8
@@ -80,11 +80,11 @@ func instructionValue(i Instruction) int {
 	return i.args[0] * i.args[1]
 }
 
-func Day03Part1(instructions []Instruction) int {
-	return SumFunc(instructions, instructionValue)
+func Part1(instructions []Instruction) (int, error) {
+	return aoc24.SumFunc(instructions, instructionValue), nil
 }
 
-func Day03Part2(instructions []Instruction) int {
+func Part2(instructions []Instruction) (int, error) {
 	result := 0
 	do := 1
 	for _, instr := range instructions {
@@ -97,28 +97,13 @@ func Day03Part2(instructions []Instruction) int {
 			result += do * instr.args[0] * instr.args[1]
 		}
 	}
-	return result
+	return result, nil
 }
 
 func Day03(input string) error {
-	instructions, err := FindInstructions(input)
-	if err != nil {
-		return err
-	}
-
-	start := time.Now()
-	solution1 := Day03Part1(instructions)
-	stop := time.Now()
-	log.Printf("Part 1: %d in %d μs\n", solution1, stop.Sub(start).Microseconds())
-
-	start = time.Now()
-	solution2 := Day03Part2(instructions)
-	stop = time.Now()
-	log.Printf("Part 2: %d in %d μs\n", solution2, stop.Sub(start).Microseconds())
-
-	return nil
+	return aoc24.Solve(input, FindInstructions, Part1, Part2)
 }
 
 func init() {
-	AddSolution(3, Day03)
+	aoc24.AddSolution(3, Day03)
 }

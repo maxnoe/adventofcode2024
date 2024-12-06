@@ -1,8 +1,10 @@
-package aoc24
+package day03
 
 import (
 	"slices"
 	"testing"
+
+	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
 var day03_test_input1 = "xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"
@@ -35,7 +37,7 @@ func InstructionEqual(i1 Instruction, i2 Instruction) bool {
 func TestFindInstructions(t *testing.T) {
 	result, err := FindInstructions(day03_test_input1)
 
-	assertEqual(t, err, nil)
+	aoc24.AssertEqual(t, err, nil)
 
 	if !slices.EqualFunc(result, expected_instructions1, InstructionEqual) {
 		t.Fatalf("unexpected muls, got %v, expeceted %v", result, expected_instructions1)
@@ -43,7 +45,7 @@ func TestFindInstructions(t *testing.T) {
 
 	result, err = FindInstructions(day03_test_input2)
 
-	assertEqual(t, err, nil)
+	aoc24.AssertEqual(t, err, nil)
 
 	if !slices.EqualFunc(result, expected_instructions2, InstructionEqual) {
 		t.Fatalf("unexpected muls, got %v, expeceted %v", result, expected_instructions2)
@@ -51,11 +53,11 @@ func TestFindInstructions(t *testing.T) {
 }
 
 func TestPart01(t *testing.T) {
-	result := Day03Part1(expected_instructions1)
-	assertEqual(t, result, 161)
+	result, _ := Part1(expected_instructions1)
+	aoc24.AssertEqual(t, result, 161)
 }
 
 func TestPart02(t *testing.T) {
-	result := Day03Part2(expected_instructions2)
-	assertEqual(t, result, 48)
+	result, _ := Part2(expected_instructions2)
+	aoc24.AssertEqual(t, result, 48)
 }

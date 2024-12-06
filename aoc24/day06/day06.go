@@ -1,9 +1,9 @@
-package aoc24
+package day06
 
 import (
-	"log"
 	"strings"
-	"time"
+
+	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
 
@@ -24,7 +24,12 @@ type Guard struct {
 	direction GuardDirection
 }
 
-func Day06ParseInput(input string) (Lab, Guard) {
+type Input struct {
+	obstructions Lab
+	guard Guard
+}
+
+func Parse(input string) (Input, error) {
 	guard := Guard{}
 	lines := strings.Split(strings.TrimSpace(input), "\n")
 	lab := make(Lab, len(lines))
@@ -41,7 +46,7 @@ func Day06ParseInput(input string) (Lab, Guard) {
 		}
 	}
 
-	return lab, guard
+	return Input{lab, guard}, nil
 }
 
 
@@ -115,11 +120,10 @@ func visitedFields(obstructions Lab, guard Guard) Lab {
 }
 
 
-func Day06Part1(obstructions Lab, guard Guard) int {
-	visited := visitedFields(obstructions, guard)
-	return countTrue(visited)
+func Part1(input Input) (int, error) {
+	visited := visitedFields(input.obstructions, input.guard)
+	return countTrue(visited), nil
 }
-
 
 
 func isLoop(obsRow int, obsCol int, obstructions Lab, guard Guard) bool {
@@ -170,7 +174,9 @@ func isLoop(obsRow int, obsCol int, obstructions Lab, guard Guard) bool {
 }
 
 
-func Day06Part2(obstructions Lab, guard Guard) int {
+func Part2(input Input) (int, error) {
+	obstructions := input.obstructions
+	guard := input.guard
 	n_rows := len(obstructions)
 	n_cols := len(obstructions[0])
 	visted := visitedFields(obstructions, guard)
@@ -186,24 +192,13 @@ func Day06Part2(obstructions Lab, guard Guard) int {
 		}
 	}
 
-	return n
+	return n, nil
 }
 
 func Day06(input string) error {
-	lab, guard := Day06ParseInput(input)
-
-	start := time.Now()
-	solution1 := Day06Part1(lab, guard)
-	stop := time.Now()
-	log.Printf("Part 1: %d in %d μs\n", solution1, stop.Sub(start).Microseconds())
-
-	start = time.Now()
-	solution2 := Day06Part2(lab, guard)
-	stop = time.Now()
-	log.Printf("Part 2: %d in %d μs\n", solution2, stop.Sub(start).Microseconds())
-	return nil
+	return aoc24.Solve(input, Parse, Part1, Part2)
 }
 
 func init() {
-	AddSolution(6, Day06)
+	aoc24.AddSolution(6, Day06)
 }

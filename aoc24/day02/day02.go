@@ -1,15 +1,15 @@
-package aoc24
+package day02
 
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
-	"time"
+
+	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-func Day02ParseInput(input string) ([][]int, error) {
+func ParseInput(input string) ([][]int, error) {
 	data := make([][]int, 0, 50)
 	scanner := bufio.NewScanner(strings.NewReader(input))
 	i := 0
@@ -31,11 +31,11 @@ func Day02ParseInput(input string) ([][]int, error) {
 	return data, nil
 }
 
-func Day02ReportSafe(report []int) bool {
+func ReportSafe(report []int) bool {
 	ascending := true
 	previous := report[0]
 	for i, val := range report[1:] {
-		if diff := absDiff(val, previous); diff == 0 || diff > 3 {
+		if diff := aoc24.AbsDiff(val, previous); diff == 0 || diff > 3 {
 			return false
 		}
 
@@ -54,12 +54,12 @@ func Day02ReportSafe(report []int) bool {
 	return true
 }
 
-func Day02Part1(reports [][]int) int {
-	return CountTrueFunc(reports, Day02ReportSafe)
+func Part1(reports [][]int) (int, error) {
+	return aoc24.CountTrueFunc(reports, ReportSafe), nil
 }
 
-func Day02ReportSafeWithDampener(report []int) bool {
-	if Day02ReportSafe(report) {
+func ReportSafeWithDampener(report []int) bool {
+	if ReportSafe(report) {
 		return true
 	}
 
@@ -67,7 +67,7 @@ func Day02ReportSafeWithDampener(report []int) bool {
 		dampened_report := make([]int, 0, len(report)-1)
 		dampened_report = append(dampened_report, report[:i]...)
 		dampened_report = append(dampened_report, report[i+1:]...)
-		if Day02ReportSafe(dampened_report) {
+		if ReportSafe(dampened_report) {
 			return true
 		}
 	}
@@ -75,29 +75,14 @@ func Day02ReportSafeWithDampener(report []int) bool {
 	return false
 }
 
-func Day02Part2(reports [][]int) int {
-	return CountTrueFunc(reports, Day02ReportSafeWithDampener)
+func Part2(reports [][]int) (int, error) {
+	return aoc24.CountTrueFunc(reports, ReportSafeWithDampener), nil
 }
 
-func Day02(input string) error {
-	reports, err := Day02ParseInput(input)
-	if err != nil {
-		return err
-	}
-
-	start := time.Now()
-	solution1 := Day02Part1(reports)
-	stop := time.Now()
-	log.Printf("Part 1: %d in %d μs\n", solution1, stop.Sub(start).Microseconds())
-
-	start = time.Now()
-	solution2 := Day02Part2(reports)
-	stop = time.Now()
-	log.Printf("Part 2: %d in %d μs\n", solution2, stop.Sub(start).Microseconds())
-
-	return nil
+func Solve(input string) error {
+	return aoc24.Solve(input, ParseInput, Part1, Part2)
 }
 
 func init() {
-	AddSolution(2, Day02)
+	aoc24.AddSolution(2, Solve)
 }

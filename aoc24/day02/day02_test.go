@@ -1,4 +1,4 @@
-package aoc24
+package day02
 
 import (
 	"fmt"
@@ -24,7 +24,7 @@ var test_input = [][]int{
 }
 
 func TestDay02ParseInput(t *testing.T) {
-	input, err := Day02ParseInput(test_input_string)
+	input, err := ParseInput(test_input_string)
 
 	if err != nil {
 		t.Fatal(err.Error())
@@ -45,13 +45,13 @@ func TestDay02Part1(t *testing.T) {
 	expected := []bool{true, false, false, false, false, true}
 
 	for i, report := range test_input {
-		if Day02ReportSafe(report) != expected[i] {
+		if ReportSafe(report) != expected[i] {
 			t.Log(fmt.Sprintf("Expected report %d to be %t", i, expected[i]))
 			t.Fail()
 		}
 	}
 
-	if answer := Day02Part1(test_input); answer != 2 {
+	if answer, _ := Part1(test_input); answer != 2 {
 		t.Fatalf("Expected 2 safe reports, got %d", answer)
 	}
 
@@ -61,13 +61,13 @@ func TestDay02Part2(t *testing.T) {
 	expected := []bool{true, false, false, true, true, true}
 
 	for i, report := range test_input {
-		if Day02ReportSafeWithDampener(report) != expected[i] {
+		if ReportSafeWithDampener(report) != expected[i] {
 			t.Log(fmt.Sprintf("Expected report %d to be %t", i, expected[i]))
 			t.Fail()
 		}
 	}
 
-	if answer := Day02Part2(test_input); answer != 4 {
+	if answer, _ := Part2(test_input); answer != 4 {
 		t.Fatalf("Expected 2 safe reports, got %d", answer)
 	}
 }
