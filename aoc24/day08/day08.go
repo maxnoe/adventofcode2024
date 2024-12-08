@@ -47,16 +47,6 @@ func Inside(pos Pos, world World) bool {
 	return true
 }
 
-func GCD(a int, b int) int {
-	if b == 0 {
-		return a
-	}
-	tmp := a
-	a = b
-	b = tmp % a
-	return GCD(a, b)
-}
-
 func Part1(world World) (int, error) {
 	resonances := make(map[Pos]struct{})
 
@@ -89,7 +79,7 @@ func Part2(world World) (int, error) {
 			for _, b := range antennas[i + 1:] {
 				drow := b.Row - a.Row
 				dcol := b.Col - a.Col
-				gcd := GCD(drow, dcol)
+				gcd := aoc24.GCD(drow, dcol)
 				drow = drow / gcd
 				dcol = dcol / gcd
 

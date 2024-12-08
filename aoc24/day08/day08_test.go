@@ -22,11 +22,6 @@ var test_input = `
 ............
 `
 
-func TestGCD(t *testing.T) {
-	aoc24.AssertEqual(t, GCD(7, 14), 7)
-	aoc24.AssertEqual(t, GCD(21, 14), 7)
-}
-
 func TestPart1(t *testing.T) {
 	world, _ := Parse(test_input)
 	res, _ := Part1(world)

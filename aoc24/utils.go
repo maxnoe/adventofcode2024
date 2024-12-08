@@ -39,3 +39,13 @@ func CountTrueFunc[T any](inputs []T, f func(T) bool) int {
 	}
 	return count
 }
+
+func GCD(a int, b int) int {
+	if b == 0 {
+		return a
+	}
+	tmp := a
+	a = b
+	b = tmp % a
+	return GCD(a, b)
+}

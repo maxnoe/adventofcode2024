@@ -8,6 +8,12 @@ func TestAbsDiff(t *testing.T) {
 	AssertEqual(t, AbsDiff(-1, 5), 6)
 }
 
+func TestGCD(t *testing.T) {
+	AssertEqual(t, GCD(7, 14), 7)
+	AssertEqual(t, GCD(21, 14), 7)
+}
+
+
 func TestSumFuncInt(t *testing.T) {
 	ints := []int{1, 2, 3}
 
