@@ -14,6 +14,7 @@ import (
 	_ "github.com/maxnoe/adventofcode2024/aoc24/day06"
 	_ "github.com/maxnoe/adventofcode2024/aoc24/day07"
 	_ "github.com/maxnoe/adventofcode2024/aoc24/day08"
+	_ "github.com/maxnoe/adventofcode2024/aoc24/day09"
 )
 
 func main() {
