@@ -51,14 +51,15 @@ func Compact(blocks []int) {
 		for blocks[file_ptr] == -1 {
 			file_ptr -= 1
 		}
+		if space_ptr >= file_ptr {
+			break
+		}
 
 		blocks[space_ptr] = blocks[file_ptr]
 		blocks[file_ptr] = -1
 		space_ptr += 1
 		file_ptr -= 1
 	}
-	log.Printf("file_ptr = %d, space_ptr = %d", file_ptr, space_ptr)
-	log.Printf("%v\n", blocks[file_ptr - 10:file_ptr + 10])
 }
 
 
@@ -86,8 +87,6 @@ func Part1(disk_space []int8) (int, error) {
 		block += int(size)
 	}
 
-	// I have a bug, but calling it twice works...
-	Compact(blocks)
 	Compact(blocks)
 	return CheckSum(blocks), nil
 }
