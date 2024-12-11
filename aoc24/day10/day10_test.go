@@ -22,9 +22,9 @@ var test_input = `
 func TestScore(t *testing.T) {
 	grid, _ := Parse(test_input)
 
-	aoc24.AssertEqual(t, Score(Pos{0, 2}, grid), 5)
-	aoc24.AssertEqual(t, Score(Pos{0, 4}, grid), 6)
-	aoc24.AssertEqual(t, Score(Pos{2, 4}, grid), 5)
+	aoc24.AssertEqual(t, Score(Pos{0, 2}, grid, false), 5)
+	aoc24.AssertEqual(t, Score(Pos{0, 4}, grid, false), 6)
+	aoc24.AssertEqual(t, Score(Pos{2, 4}, grid, false), 5)
 }
 
 func TestPart1(t *testing.T) {
@@ -32,4 +32,19 @@ func TestPart1(t *testing.T) {
 
 	result, _ := Part1(grid)
 	aoc24.AssertEqual(t, result, 36)
+}
+
+func TestRating(t *testing.T) {
+	grid, _ := Parse(test_input)
+
+	aoc24.AssertEqual(t, Score(Pos{0, 2}, grid, true), 20)
+	aoc24.AssertEqual(t, Score(Pos{0, 4}, grid, true), 24)
+	aoc24.AssertEqual(t, Score(Pos{2, 4}, grid, true), 10)
+}
+
+func TestPart2(t *testing.T) {
+	grid, _ := Parse(test_input)
+
+	result, _ := Part2(grid)
+	aoc24.AssertEqual(t, result, 81)
 }

@@ -31,7 +31,7 @@ type Pos struct {
 var DIRECTIONS = [4]Pos{{1, 0}, {0, 1}, {-1, 0}, {0, -1}}
 
 
-func Score(pos Pos, topography [][]int8) int {
+func Score(pos Pos, topography [][]int8, trails bool) int {
 	n := 0
 
 	visited := make(map[Pos]struct{})
@@ -45,12 +45,11 @@ func Score(pos Pos, topography [][]int8) int {
 	for len(to_check) > 0 {
 		pos = to_check[0]
 		to_check = to_check[1:]
-		if _, v := visited[pos]; v {
+		if _, v := visited[pos]; v && !trails {
 			continue
 		}
 
 		visited[pos] = struct{}{}
-
 
 		level := topography[pos.R][pos.C]
 		if level == 9 {
@@ -79,22 +78,26 @@ func Score(pos Pos, topography [][]int8) int {
 }
 
 
-func Part1(topography [][]int8) (int, error) {
+func TotalScore(topography [][]int8, trails bool) int {
 	result := 0
 
 	for i, row := range topography {
 		for j, val := range row {
 			if val == 0 {
-				result += Score(Pos{i, j}, topography);
+				result += Score(Pos{i, j}, topography, trails);
 			}
 		}
 	}
-	return result, nil
+	return result
+}
+
+
+func Part1(topography [][]int8) (int, error) {
+	return TotalScore(topography, false), nil
 }
 
 func Part2(topography [][]int8) (int, error) {
-	result := 0
-	return result, nil
+	return TotalScore(topography, true), nil
 }
 
 func Solve(input string) error {
