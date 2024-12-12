@@ -8,7 +8,7 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-func ParseInput(input string) ([][]rune, error) {
+func Parse(input string) ([][]rune, error) {
 	grid := make([][]rune, 0, 0)
 
 	scanner := bufio.NewScanner(strings.NewReader(input))
@@ -144,10 +144,6 @@ func Part2(grid [][]rune) (int, error) {
 	return n, nil
 }
 
-func Day04(input string) error {
-	return aoc24.Solve(input, ParseInput, Part1, Part2)
-}
-
 func init() {
-	aoc24.AddSolution(4, Day04)
+	aoc24.AddSolution(4, Parse, Part1, Part2)
 }

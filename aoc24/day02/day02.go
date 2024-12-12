@@ -9,7 +9,7 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-func ParseInput(input string) ([][]int, error) {
+func Parse(input string) ([][]int, error) {
 	data := make([][]int, 0, 50)
 	scanner := bufio.NewScanner(strings.NewReader(input))
 	i := 0
@@ -79,10 +79,6 @@ func Part2(reports [][]int) (int, error) {
 	return aoc24.CountTrueFunc(reports, ReportSafeWithDampener), nil
 }
 
-func Solve(input string) error {
-	return aoc24.Solve(input, ParseInput, Part1, Part2)
-}
-
 func init() {
-	aoc24.AddSolution(2, Solve)
+	aoc24.AddSolution(2, Parse, Part1, Part2)
 }

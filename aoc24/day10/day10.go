@@ -100,10 +100,6 @@ func Part2(topography [][]int8) (int, error) {
 	return TotalScore(topography, true), nil
 }
 
-func Solve(input string) error {
-	return aoc24.Solve(input, Parse, Part1, Part2)
-}
-
 func init() {
-	aoc24.AddSolution(10, Solve)
+	aoc24.AddSolution(10, Parse, Part1, Part2)
 }

@@ -8,9 +8,6 @@ import (
 
 var solutions = make(map[int]func(string) error)
 
-func AddSolution(day int, f func(string) error) {
-	solutions[day] = f
-}
 
 func SolveDay(day int, input string) error {
 	f := solutions[day]
@@ -44,4 +41,10 @@ func Solve[I any](input_string string, parse func(string) (I, error), part1 func
 	log.Printf("Part 2: %d in %d μs\n", solution2, stop.Sub(start).Microseconds())
 
 	return nil
+}
+
+func AddSolution[I any](day int, parse func(string) (I, error), part1 func(I) (int, error), part2 func(I) (int, error)) {
+	solutions[day] = func (input string) error {
+		return Solve(input, parse, part1, part2)
+	}
 }

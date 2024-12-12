@@ -28,7 +28,7 @@ const lenDont = len(dontStr)
 
 var mulRe = regexp.MustCompile("mul\\((\\d{1,3}),(\\d{1,3})\\)")
 
-func FindInstructions(input string) ([]Instruction, error) {
+func Parse(input string) ([]Instruction, error) {
 	instructions := make([]Instruction, 0)
 	i := 0
 	for i < len(input) {
@@ -100,10 +100,6 @@ func Part2(instructions []Instruction) (int, error) {
 	return result, nil
 }
 
-func Day03(input string) error {
-	return aoc24.Solve(input, FindInstructions, Part1, Part2)
-}
-
 func init() {
-	aoc24.AddSolution(3, Day03)
+	aoc24.AddSolution(3, Parse, Part1, Part2)
 }

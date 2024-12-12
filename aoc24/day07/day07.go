@@ -99,11 +99,6 @@ func Part2(eqs []Equation) (int, error) {
 }
 
 
-func Solve(input string) error {
-	return aoc24.Solve(input, Parse, Part1, Part2)
-}
-
-
 func init() {
-	aoc24.AddSolution(7, Solve)	
+	aoc24.AddSolution(7, Parse, Part1, Part2)
 }

@@ -101,10 +101,6 @@ func Part2(world World) (int, error) {
 }
 
 
-func Solve(input string) error {
-	return aoc24.Solve(input, Parse, Part1, Part2)
-}
-
 func init() {
-	aoc24.AddSolution(8, Solve)
+	aoc24.AddSolution(8, Parse, Part1, Part2)
 }

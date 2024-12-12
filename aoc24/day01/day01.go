@@ -11,16 +11,12 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-func init() {
-	aoc24.AddSolution(1, Solve)
-}
-
 type Input struct {
 	list1 []int
 	list2 []int
 }
 
-func ParseInput(input string) (Input, error) {
+func Parse(input string) (Input, error) {
 	result := Input{}
 
 	scanner := bufio.NewScanner(strings.NewReader(input))
@@ -112,6 +108,6 @@ outer:
 	return result, nil
 }
 
-func Solve(input string) error {
-	return aoc24.Solve(input, ParseInput, Part1, Part2)
+func init() {
+	aoc24.AddSolution(1, Parse, Part1, Part2)
 }

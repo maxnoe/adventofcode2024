@@ -83,10 +83,6 @@ func Part2(stones []int) (int, error) {
 	return NumStones(stones, 75), nil
 }
 
-func Solve(input string) error {
-	return aoc24.Solve(input, Parse, Part1, Part2)
-}
-
 func init() {
-	aoc24.AddSolution(11, Solve)
+	aoc24.AddSolution(11, Parse, Part1, Part2)
 }
