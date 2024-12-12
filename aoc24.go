@@ -36,7 +36,7 @@ func main() {
 	log.Printf("Getting input for day %d\n", day)
 	input, err := aoc24.GetInput(day)
 	if err != nil {
-		log.Fatalf("Error getting input for day %d: %s\n", 2, err)
+		log.Fatalf("Error getting input for day %d: %s\n", day, err)
 	}
 	log.Println("done")
 
