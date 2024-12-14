@@ -24,14 +24,17 @@ func DivOk(nom int, denom int) (int, bool) {
 	return nom / denom, nom % denom == 0
 }
 
-func (game Game) Cost() (int, bool) {
-	nom := game.prize.y * game.a.x - game.prize.x * game.a.y
+func (game Game) Cost(offset int) (int, bool) {
+	x := game.prize.x + offset
+	y := game.prize.y + offset
+
+	nom := y * game.a.x - x * game.a.y
 	denom := game.a.x * game.b.y - game.b.x * game.a.y
 	b, ok := DivOk(nom, denom)
 	if !ok {
 		return 0, false
 	}
-	a, ok := DivOk(game.prize.x - b * game.b.x, game.a.x)
+	a, ok := DivOk(x - b * game.b.x, game.a.x)
 	if !ok {
 		return 0, false
 	}
@@ -84,10 +87,10 @@ func Parse(input string) ([]Game, error)  {
 	return games, nil
 }
 
-func Part1(games []Game) (int, error) {
+func TotalCost(games []Game, offset int) (int, error) {
 	n := 0
 	for _, game := range games {
-		cost, ok := game.Cost()
+		cost, ok := game.Cost(offset)
 		if ok {
 			n += cost
 		}
@@ -95,18 +98,14 @@ func Part1(games []Game) (int, error) {
 	return n, nil
 }
 
-var offset = 10000000000000
+
+func Part1(games []Game) (int, error) {
+	return TotalCost(games, 0)
+}
 
 func Part2(games []Game) (int, error) {
-	n := 0
-	for _, game := range games {
-		new_game := Game{game.a, game.b, Pair{offset + game.prize.x, offset + game.prize.y}}
-		cost, ok := new_game.Cost()
-		if ok {
-			n += cost
-		}
-	}
-	return n, nil
+	offset := 10000000000000
+	return TotalCost(games, offset)
 }
 
 
