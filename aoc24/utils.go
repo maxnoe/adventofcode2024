@@ -19,7 +19,12 @@ func AssertSliceEqual[T comparable](t *testing.T, actual []T, expected []T) {
 	}
 }
 
-func AbsDiff(x, y int) int {
+type Integer interface {
+	int | int8 | int16 | int32 | int64
+}
+
+
+func AbsDiff[I Integer] (x, y I) I {
 	if x < y {
 		return y - x
 	}
