@@ -3,7 +3,6 @@ package day17
 import (
 	"fmt"
 	"log"
-	"math"
 	"slices"
 	"strconv"
 	"strings"
@@ -12,7 +11,6 @@ import (
 )
 
 type Instruction int
-
 
 const (
 	ADV Instruction = 0
@@ -31,7 +29,7 @@ type Machine struct {
 	C       int
 	Program []int
 	Ptr     int
-	Output []int
+	Output  []int
 }
 
 func (m *Machine) arg() int {
@@ -77,7 +75,7 @@ func (m *Machine) bst() {
 
 func (m *Machine) jnz() {
 	if m.A != 0 {
-		m.Ptr = m.arg()	
+		m.Ptr = m.arg()
 	} else {
 		m.Ptr += 2
 	}
@@ -89,7 +87,7 @@ func (m *Machine) bxc() {
 }
 
 func (m *Machine) out() {
-	m.Output = append(m.Output, m.combo() % 8)
+	m.Output = append(m.Output, m.combo()%8)
 	m.Ptr += 2
 }
 
@@ -101,18 +99,65 @@ func (m *Machine) cdv() {
 	m.C = m.dv_impl()
 }
 
+func (m *Machine) PrintInstruction(ptr int) {
+	instruction := Instruction(m.Program[ptr])
+	arg := m.Program[ptr+1]
+
+	combo := strconv.Itoa(arg)
+	if arg >= 4 {
+		combo = []string{"A", "B", "C"}[arg-4]
+	}
+
+	switch instruction {
+	case ADV:
+		log.Printf("adv %d: A = A / (2 ** %s) ", arg, combo)
+	case BXL:
+		log.Printf("bxl %d: B = B ^ %d", arg, arg)
+	case BST:
+		log.Printf("bst %d: B = %s %% 8", arg, combo)
+	case JNZ:
+		log.Printf("jnz %d", arg)
+	case BXC:
+		log.Printf("bxc  : B = B ^ C")
+	case OUT:
+		log.Printf("out %d: %s %% 8", arg, combo)
+	case BDV:
+		log.Printf("bdv %d: B = A / (2 ** %s) ", arg, combo)
+	case CDV:
+		log.Printf("cdv %d: C = A / (2 ** %s) ", arg, combo)
+	}
+}
+
+func (m *Machine) PrintProgram() {
+	log.Printf("%v", m)
+	for i := range len(m.Program) / 2 {
+		ptr := 2 * i
+		m.PrintInstruction(ptr)
+	}
+}
+
 func (m *Machine) RunProgram() {
 	for m.Ptr < len(m.Program) {
+		// log.Printf("Ptr=%2d, A=%8d B=%8d C=%8d, output=%v", m.Ptr, m.A, m.B, m.C, m.Output)
+		// m.PrintInstruction(m.Ptr)
 		instruction := Instruction(m.Program[m.Ptr])
 		switch instruction {
-		case ADV: m.adv()
-		case BXL: m.bxl()
-		case BST: m.bst()
-		case JNZ: m.jnz()
-		case BXC: m.bxc()
-		case OUT: m.out()
-		case BDV: m.bdv()
-		case CDV: m.cdv()
+		case ADV:
+			m.adv()
+		case BXL:
+			m.bxl()
+		case BST:
+			m.bst()
+		case JNZ:
+			m.jnz()
+		case BXC:
+			m.bxc()
+		case OUT:
+			m.out()
+		case BDV:
+			m.bdv()
+		case CDV:
+			m.cdv()
 		}
 	}
 }
@@ -122,19 +167,27 @@ func Parse(input string) (Machine, error) {
 	if len(lines) != 5 {
 		return Machine{}, fmt.Errorf("Invalid format of input, expected 5 lines got %d", len(lines))
 	}
-	
+
 	A, err := strconv.Atoi(strings.Split(lines[0], ": ")[1])
-	if err != nil {return Machine{}, err}
+	if err != nil {
+		return Machine{}, err
+	}
 	B, err := strconv.Atoi(strings.Split(lines[1], ": ")[1])
-	if err != nil {return Machine{}, err}
+	if err != nil {
+		return Machine{}, err
+	}
 	C, err := strconv.Atoi(strings.Split(lines[2], ": ")[1])
-	if err != nil {return Machine{}, err}
+	if err != nil {
+		return Machine{}, err
+	}
 
 	values := strings.Split(strings.Split(lines[4], ": ")[1], ",")
 	program := make([]int, len(values))
 	for i, val := range values {
 		val, err := strconv.Atoi(val)
-		if err != nil {return Machine{}, err}
+		if err != nil {
+			return Machine{}, err
+		}
 		program[i] = val
 	}
 
@@ -163,19 +216,33 @@ func Part1(m Machine) (string, error) {
 }
 
 func Part2(m Machine) (int, error) {
-	A := 0
-	for {
-		if A % (1024 * 1024) == 0 {
-			log.Printf("%d, log2(A) = %f \n", A, math.Log2(float64(A)))
-		}
-		new_m := Machine{A, m.B, m.C, m.Program, 0, nil}
-		new_m.RunProgram()
+	log.Printf("%v", m.Program)
+	m.PrintProgram()
 
-		if slices.Equal(new_m.Output, new_m.Program) {
-			return A, nil
+	A := 0
+	previous := 0
+	for i := range m.Program {
+
+		// we go from the last output to the first
+		// looking for the first number that outputs the partial program
+		// starting from that index to the end
+		pos := len(m.Program) - i - 1
+
+		// The program always seems to divide A by 8, so we multiply by 8 to start the next scan
+		A = previous * 8
+		for {
+			t := Machine{A, m.B, m.C, m.Program, 0, nil}
+			t.RunProgram()
+
+			if slices.Equal(t.Output, m.Program[pos:]) {
+				previous = A
+				break
+			}
+			A += 1
 		}
-		A += 1
 	}
+
+	return A, nil
 }
 
 func init() {
