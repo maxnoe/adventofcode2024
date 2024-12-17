@@ -60,6 +60,7 @@ type PathHead struct {
 	P    Pos
 	Cost int
 	Dir  Direction
+	History []Pos
 }
 
 func Cost(current Direction, wanted Direction) int {
@@ -77,7 +78,7 @@ func Cost(current Direction, wanted Direction) int {
 	return 1001
 }
 
-func Part1(maze Maze) (int, error) {
+func FindBestPaths(maze Maze) []PathHead {
 	visited := make([][]int, maze.Rows)
 	for i := range maze.Rows {
 		visited[i] = make([]int, maze.Cols)
@@ -86,8 +87,9 @@ func Part1(maze Maze) (int, error) {
 		}
 	}
 
-	to_check := []PathHead{{maze.Start, 0, EAST}}
+	to_check := []PathHead{{maze.Start, 0, EAST, []Pos{}}}
 
+	paths := make([]PathHead, 0)
 	for len(to_check) > 0 {
 		head := to_check[0]
 		to_check = to_check[1:]
@@ -105,22 +107,43 @@ func Part1(maze Maze) (int, error) {
 			}
 
 			cost := Cost(head.Dir, dir)
-			proposal := PathHead{n, head.Cost + cost, dir}
+			proposal := PathHead{n, head.Cost + cost, dir, append(head.History, n)}
 
-			if visited[n.R][n.C] > proposal.Cost {
+			if visited[n.R][n.C] >= proposal.Cost {
 				visited[n.R][n.C] = proposal.Cost
 
-				if n.R != maze.End.R || n.C != maze.End.C {
+				if n.R == maze.End.R && n.C == maze.End.C {
+					paths = append(paths, proposal)
+				} else {
 					to_check = append(to_check, proposal)
-				} 
+				}
 			}
 		}
 	}
-	return visited[maze.End.R][maze.End.C], nil
+
+	best_paths := make([]PathHead, 0)
+	for _, path := range paths {
+		if path.Cost == visited[maze.End.R][maze.End.C] {
+			best_paths = append(best_paths, path)
+		}
+	}
+	return best_paths
+}
+
+func Part1(maze Maze) (int, error) {
+	paths := FindBestPaths(maze)
+	return paths[0].Cost, nil
 }
 
 func Part2(maze Maze) (int, error) {
-	return 0, nil
+	spots := make(map[Pos]struct{})
+	paths := FindBestPaths(maze)
+	for _, path := range paths {
+		for _, pos := range path.History {
+			spots[pos] = struct{}{}
+		}
+	}
+	return len(spots), nil
 }
 
 func init() {
