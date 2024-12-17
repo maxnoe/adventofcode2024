@@ -1,12 +1,20 @@
 package aoc24
 
 import (
+	"slices"
 	"testing"
 )
 
 func AssertEqual[T comparable](t *testing.T, actual T, expected T) {
 	t.Helper()
 	if actual != expected {
+		t.Fatalf("Expected %v, got %v", expected, actual)
+	}
+}
+
+func AssertSliceEqual[T comparable](t *testing.T, actual []T, expected []T) {
+	t.Helper()
+	if !slices.Equal(actual, expected) {
 		t.Fatalf("Expected %v, got %v", expected, actual)
 	}
 }

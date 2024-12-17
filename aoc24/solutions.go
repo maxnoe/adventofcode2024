@@ -18,7 +18,7 @@ func SolveDay(day int, input string) error {
 	return f(input)
 }
 
-func Solve[I any](input_string string, parse func(string) (I, error), part1 func(I) (int, error), part2 func(I) (int, error)) error {
+func Solve[I any, O1 any, O2 any](input_string string, parse func(string) (I, error), part1 func(I) (O1, error), part2 func(I) (O2, error)) error {
 	input, err := parse(input_string)
 	if err != nil {
 		return fmt.Errorf("Error parsing input: %v", err)
@@ -30,7 +30,7 @@ func Solve[I any](input_string string, parse func(string) (I, error), part1 func
 	if err != nil {
 		return fmt.Errorf("Error solving part 1: %v", err)
 	}
-	log.Printf("Part 1: %d in %d μs\n", solution1, stop.Sub(start).Microseconds())
+	log.Printf("Part 1: %v in %d μs\n", solution1, stop.Sub(start).Microseconds())
 
 	start = time.Now()
 	solution2, err := part2(input)
@@ -38,12 +38,12 @@ func Solve[I any](input_string string, parse func(string) (I, error), part1 func
 	if err != nil {
 		return fmt.Errorf("Error solving part 2: %v", err)
 	}
-	log.Printf("Part 2: %d in %d μs\n", solution2, stop.Sub(start).Microseconds())
+	log.Printf("Part 2: %v in %d μs\n", solution2, stop.Sub(start).Microseconds())
 
 	return nil
 }
 
-func AddSolution[I any](day int, parse func(string) (I, error), part1 func(I) (int, error), part2 func(I) (int, error)) {
+func AddSolution[I any, O1 any, O2 any](day int, parse func(string) (I, error), part1 func(I) (O1, error), part2 func(I) (O2, error)) {
 	solutions[day] = func (input string) error {
 		return Solve(input, parse, part1, part2)
 	}
