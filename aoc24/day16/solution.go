@@ -1,6 +1,7 @@
 package day16
 
 import (
+	"log"
 	"math"
 	"strings"
 
@@ -49,19 +50,24 @@ const (
 	NORTH           = 3
 )
 
-var Vecs = map[Direction]Pos {
-	EAST: {0, 1},
-	SOUTH: {1, 0},
-	WEST: {0, -1},
-	NORTH: {-1, 0},
+var Vecs = []Pos {
+	{0, 1},
+	{1, 0},
+	{0, -1},
+	{-1, 0},
+}
+
+type State struct {
+	P Pos
+	Dir Direction
 }
 
 type PathHead struct {
-	P    Pos
+	S State
 	Cost int
-	Dir  Direction
 	History []Pos
 }
+
 
 func Cost(current Direction, wanted Direction) int {
 	if current == wanted {
@@ -78,24 +84,46 @@ func Cost(current Direction, wanted Direction) int {
 	return 1001
 }
 
-func FindBestPaths(maze Maze) []PathHead {
-	visited := make([][]int, maze.Rows)
-	for i := range maze.Rows {
-		visited[i] = make([]int, maze.Cols)
-		for j := range maze.Cols {
-			visited[i][j] = math.MaxInt
-		}
-	}
+func CopyAppend(path []Pos, pos Pos) []Pos {
+	out := make([]Pos, len(path) + 1)
+	copy(out, path)
+	out[len(out) - 1] = pos
+	return out
+}
 
-	to_check := []PathHead{{maze.Start, 0, EAST, []Pos{}}}
+func FindBestPaths(maze Maze) []PathHead {
+	visited := make(map[State]int)
+
+	state := State{maze.Start, EAST}
+	start := PathHead{state, 0, []Pos{maze.Start}}
+	to_check := []PathHead{start}
 
 	paths := make([]PathHead, 0)
+	min_cost := math.MaxInt
 	for len(to_check) > 0 {
 		head := to_check[0]
 		to_check = to_check[1:]
+		pos := head.S.P
+
+		if pos.R == maze.End.R && pos.C == maze.End.C {
+			if head.Cost <= min_cost {
+				min_cost = head.Cost
+				paths = append(paths, head)
+			}
+			continue
+		}
+
+		cost, found := visited[head.S]
+		if !found || head.Cost <= cost {
+			visited[head.S] = head.Cost
+		}
+		if found && head.Cost > cost {
+			continue
+		}
 
 		for dir, vec := range Vecs {
-			n:= Pos{head.P.R + vec.R, head.P.C + vec.C}
+			dir := Direction(dir)
+			n := Pos{pos.R + vec.R, pos.C + vec.C}
 			
 			// out of bounds check
 			if n.R < 0 || n.R >= maze.Rows || n.C < 0 || n.C >= maze.Cols {
@@ -106,28 +134,50 @@ func FindBestPaths(maze Maze) []PathHead {
 				continue
 			}
 
-			cost := Cost(head.Dir, dir)
-			proposal := PathHead{n, head.Cost + cost, dir, append(head.History, n)}
-
-			if visited[n.R][n.C] >= proposal.Cost {
-				visited[n.R][n.C] = proposal.Cost
-
-				if n.R == maze.End.R && n.C == maze.End.C {
-					paths = append(paths, proposal)
-				} else {
-					to_check = append(to_check, proposal)
-				}
-			}
+			cost := Cost(head.S.Dir, dir)
+			proposal := PathHead{State{n, dir}, head.Cost + cost, CopyAppend(head.History, n)}
+			to_check = append(to_check, proposal)
 		}
 	}
 
 	best_paths := make([]PathHead, 0)
 	for _, path := range paths {
-		if path.Cost == visited[maze.End.R][maze.End.C] {
+		if path.Cost == min_cost {
 			best_paths = append(best_paths, path)
 		}
 	}
 	return best_paths
+}
+
+func PrintPaths(maze Maze, paths []PathHead) {
+	lines := make([][]rune, maze.Rows)
+	for row := range maze.Rows {
+		line := make([]rune, maze.Cols)
+		for col := range maze.Cols {
+			if maze.Grid[row][col] {
+				line[col] = '#'
+			} else if maze.Start.R == row && maze.Start.C == col {
+				line[col] = 'S'
+			} else if maze.End.R == row && maze.End.C == col {
+				line[col] = 'E'
+			} else {
+				line[col] = '.'
+			}
+		}
+		lines[row] = line
+	}
+
+	for _, path := range paths {
+		for _, p := range path.History {
+			if lines[p.R][p.C] == '.' {
+				lines[p.R][p.C] = 'O'
+			}
+		}
+	}
+
+	for _, line := range lines {
+		log.Println(string(line))
+	}
 }
 
 func Part1(maze Maze) (int, error) {

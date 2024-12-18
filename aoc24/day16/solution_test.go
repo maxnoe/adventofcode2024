@@ -50,6 +50,7 @@ func TestPart1(t *testing.T) {
 	aoc24.AssertEqual(t, err, nil)
 
 	result, err := Part1(maze)
+	aoc24.AssertEqual(t, err, nil)
 	aoc24.AssertEqual(t, result, 7036)
 }
 
@@ -58,6 +59,7 @@ func TestPart2_1(t *testing.T) {
 	aoc24.AssertEqual(t, err, nil)
 
 	result, err := Part2(maze)
+	aoc24.AssertEqual(t, err, nil)
 	aoc24.AssertEqual(t, result, 45)
 }
 
@@ -66,5 +68,6 @@ func TestPart2_2(t *testing.T) {
 	aoc24.AssertEqual(t, err, nil)
 
 	result, err := Part2(maze)
+	aoc24.AssertEqual(t, err, nil)
 	aoc24.AssertEqual(t, result, 64)
 }
