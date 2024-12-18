@@ -56,7 +56,7 @@ func main() {
 			data, err = os.ReadFile(args[2])
 		}
 		if err != nil {
-			log.Fatal("Error reading input from stdin")
+			log.Fatalf("Error reading input: %v", err)
 		}
 		input = string(data)
 	}

@@ -103,9 +103,13 @@ func (m *Machine) PrintInstruction(ptr int) {
 	instruction := Instruction(m.Program[ptr])
 	arg := m.Program[ptr+1]
 
-	combo := strconv.Itoa(arg)
-	if arg >= 4 {
+	var combo string
+	if arg <= 3 {
+		combo = strconv.Itoa(arg)
+	} else if arg >= 4 && arg <= 6 {
 		combo = []string{"A", "B", "C"}[arg-4]
+	} else {
+		combo = "invalid"
 	}
 
 	switch instruction {
