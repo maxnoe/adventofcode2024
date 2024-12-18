@@ -13,7 +13,6 @@ func TestGCD(t *testing.T) {
 	AssertEqual(t, GCD(21, 14), 7)
 }
 
-
 func TestSumFuncInt(t *testing.T) {
 	ints := []int{1, 2, 3}
 

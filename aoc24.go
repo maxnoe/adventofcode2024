@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"log"
 	"os"
 	"strconv"
@@ -28,8 +29,8 @@ func main() {
 
 	args := os.Args
 
-	if len(args) != 2 {
-		log.Fatalln("Usage: aoc24 <day>")
+	if len(args) == 1 || len(args) > 3 {
+		log.Fatalln("Usage: aoc24 <day> [input]")
 	}
 
 	day, err := strconv.Atoi(args[1])
@@ -37,12 +38,29 @@ func main() {
 		log.Fatalf("Error parsing day as int: %s\n", err)
 	}
 
-	log.Printf("Getting input for day %d\n", day)
-	input, err := aoc24.GetInput(day)
-	if err != nil {
-		log.Fatalf("Error getting input for day %d: %s\n", day, err)
+	var input string
+	if len(args) == 2 {
+		log.Printf("Getting input for day %d\n", day)
+		input, err = aoc24.GetInput(day)
+		if err != nil {
+			log.Fatalf("Error getting input for day %d: %s\n", day, err)
+		}
+		log.Println("done")
+	} else {
+		var data []byte
+		if args[2] == "-" {
+			log.Println("Reading input from stdin")
+			data, err = io.ReadAll(os.Stdin)
+		} else {
+			log.Printf("Reading input from %s", args[2])
+			data, err = os.ReadFile(args[2])
+		}
+		if err != nil {
+			log.Fatal("Error reading input from stdin")
+		}
+		input = string(data)
 	}
-	log.Println("done")
+
 
 	err = aoc24.SolveDay(day, input);
 	if err != nil {

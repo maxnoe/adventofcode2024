@@ -190,8 +190,10 @@ func Parse(input string) (Machine, error) {
 		}
 		program[i] = val
 	}
-
-	return Machine{A, B, C, program, 0, nil}, nil
+	
+	m := Machine{A, B, C, program, 0, nil}
+	m.PrintProgram()
+	return m, nil
 }
 
 func JoinInts(values []int) string {
@@ -216,9 +218,6 @@ func Part1(m Machine) (string, error) {
 }
 
 func Part2(m Machine) (int, error) {
-	log.Printf("%v", m.Program)
-	m.PrintProgram()
-
 	A := 0
 	previous := 0
 	for i := range m.Program {

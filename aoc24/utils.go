@@ -23,8 +23,7 @@ type Integer interface {
 	int | int8 | int16 | int32 | int64
 }
 
-
-func AbsDiff[I Integer] (x, y I) I {
+func AbsDiff[I Integer](x, y I) I {
 	if x < y {
 		return y - x
 	}
