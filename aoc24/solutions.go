@@ -18,27 +18,31 @@ func SolveDay(day int, input string) error {
 }
 
 func Solve[I any, O1 any, O2 any](input_string string, parse func(string) (I, error), part1 func(I) (O1, error), part2 func(I) (O2, error)) error {
+	start := time.Now()
 	input, err := parse(input_string)
+	stopParse := time.Now()
 	if err != nil {
 		return fmt.Errorf("Error parsing input: %v", err)
 	}
+	log.Printf("Preparing input took: %d μs\n", stopParse.Sub(start).Microseconds())
 
-	start := time.Now()
+	start1 := time.Now()
 	solution1, err := part1(input)
-	stop := time.Now()
+	stop1 := time.Now()
 	if err != nil {
 		return fmt.Errorf("Error solving part 1: %v", err)
 	}
-	log.Printf("Part 1: %v in %d μs\n", solution1, stop.Sub(start).Microseconds())
+	log.Printf("Part 1: %v in %d μs\n", solution1, stop1.Sub(start1).Microseconds())
 
-	start = time.Now()
+	start2 := time.Now()
 	solution2, err := part2(input)
-	stop = time.Now()
+	stop2 := time.Now()
 	if err != nil {
 		return fmt.Errorf("Error solving part 2: %v", err)
 	}
-	log.Printf("Part 2: %v in %d μs\n", solution2, stop.Sub(start).Microseconds())
+	log.Printf("Part 2: %v in %d μs\n", solution2, stop2.Sub(start2).Microseconds())
 
+	log.Printf("Total time: %d μs\n", stop2.Sub(start).Microseconds())
 	return nil
 }
 

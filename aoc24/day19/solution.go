@@ -2,7 +2,6 @@ package day19
 
 import (
 	"fmt"
-	"log"
 	"strings"
 
 	"github.com/maxnoe/adventofcode2024/aoc24"
@@ -13,14 +12,18 @@ type OnsenWishlist struct {
 	Towels   []string
 }
 
-func Parse(input string) (OnsenWishlist, error) {
+func Parse(input string) ([]int, error) {
 	parts := strings.Split(strings.TrimSpace(input), "\n\n")
 	if len(parts) != 2 {
-		return OnsenWishlist{}, fmt.Errorf("Invalid format of input, expected two parts separated by newline")
+		return nil, fmt.Errorf("Invalid format of input, expected two parts separated by newline")
 	}
 	patterns := strings.Split(parts[0], ", ")
 	towels := strings.Split(parts[1], "\n")
-	return OnsenWishlist{patterns, towels}, nil
+	possibilites := make([]int, len(towels))
+	for i, t := range towels {
+		possibilites[i] = CountPossibilities(t, patterns)
+	}
+	return possibilites, nil
 }
 
 func CountPossibilitiesMatches(towel string, matches map[int][]string, index int, cache map[int]int) int {
@@ -71,20 +74,13 @@ func CountPossibilities(towel string, patterns []string) int {
 	return CountPossibilitiesMatches(towel, matches, 0, make(map[int]int))
 }
 
-func Part1(wishlist OnsenWishlist) (int, error) {
-	n := aoc24.CountTrueFunc(wishlist.Towels, func(t string) bool {
-		log.Printf("Working on %s", t)
-		nPos := CountPossibilities(t, wishlist.Patterns)
-		log.Printf("Found %d possibilities for %s", nPos, t)
-		return nPos != 0
-	})
+func Part1(possibilities []int) (int, error) {
+	n := aoc24.CountTrueFunc(possibilities, func(n int) bool { return n != 0})
 	return n, nil
 }
 
-func Part2(wishlist OnsenWishlist) (int, error) {
-	n := aoc24.SumFunc(wishlist.Towels, func(t string) int {
-		return CountPossibilities(t, wishlist.Patterns)
-	})
+func Part2(possibilities []int) (int, error) {
+	n := aoc24.Sum(possibilities)
 	return n, nil
 }
 

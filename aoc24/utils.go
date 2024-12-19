@@ -34,6 +34,14 @@ type Number interface {
 	int | float32 | float64
 }
 
+func Sum[V Number](values []V) V {
+	var sum V
+	for _, v := range values {
+		sum += v
+	}
+	return sum
+}
+
 func SumFunc[T any, V Number](inputs []T, f func(T) V) V {
 	var sum V
 	for _, input := range inputs {
