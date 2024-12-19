@@ -6,7 +6,6 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 type Pos struct {
 	Row int
 	Col int
@@ -14,16 +13,15 @@ type Pos struct {
 
 type World struct {
 	Antennas map[rune][]Pos
-	Rows int
-	Cols int
+	Rows     int
+	Cols     int
 }
-
 
 func Parse(input string) (World, error) {
 
-	lines := strings.Split(strings.TrimSpace(input), "\n")  
+	lines := strings.Split(strings.TrimSpace(input), "\n")
 
-	world := World {make(map[rune][]Pos), len(lines), len(lines[0])}
+	world := World{make(map[rune][]Pos), len(lines), len(lines[0])}
 
 	for i, line := range lines {
 		for j, chr := range line {
@@ -51,8 +49,8 @@ func Part1(world World) (int, error) {
 	resonances := make(map[Pos]struct{})
 
 	for _, antennas := range world.Antennas {
-		for i, a := range antennas  {
-			for _, b := range antennas[i + 1:] {
+		for i, a := range antennas {
+			for _, b := range antennas[i+1:] {
 				drow := b.Row - a.Row
 				dcol := b.Col - a.Col
 
@@ -75,8 +73,8 @@ func Part2(world World) (int, error) {
 	resonances := make(map[Pos]struct{})
 
 	for _, antennas := range world.Antennas {
-		for i, a := range antennas  {
-			for _, b := range antennas[i + 1:] {
+		for i, a := range antennas {
+			for _, b := range antennas[i+1:] {
 				drow := b.Row - a.Row
 				dcol := b.Col - a.Col
 				gcd := aoc24.GCD(drow, dcol)
@@ -99,7 +97,6 @@ func Part2(world World) (int, error) {
 	}
 	return len(resonances), nil
 }
-
 
 func init() {
 	aoc24.AddSolution(8, Parse, Part1, Part2)

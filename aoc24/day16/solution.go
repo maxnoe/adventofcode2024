@@ -50,7 +50,7 @@ const (
 	NORTH           = 3
 )
 
-var Vecs = []Pos {
+var Vecs = []Pos{
 	{0, 1},
 	{1, 0},
 	{0, -1},
@@ -58,16 +58,15 @@ var Vecs = []Pos {
 }
 
 type State struct {
-	P Pos
+	P   Pos
 	Dir Direction
 }
 
 type PathHead struct {
-	S State
-	Cost int
+	S       State
+	Cost    int
 	History []Pos
 }
-
 
 func Cost(current Direction, wanted Direction) int {
 	if current == wanted {
@@ -85,9 +84,9 @@ func Cost(current Direction, wanted Direction) int {
 }
 
 func CopyAppend(path []Pos, pos Pos) []Pos {
-	out := make([]Pos, len(path) + 1)
+	out := make([]Pos, len(path)+1)
 	copy(out, path)
-	out[len(out) - 1] = pos
+	out[len(out)-1] = pos
 	return out
 }
 
@@ -124,7 +123,7 @@ func FindBestPaths(maze Maze) []PathHead {
 		for dir, vec := range Vecs {
 			dir := Direction(dir)
 			n := Pos{pos.R + vec.R, pos.C + vec.C}
-			
+
 			// out of bounds check
 			if n.R < 0 || n.R >= maze.Rows || n.C < 0 || n.C >= maze.Cols {
 				continue

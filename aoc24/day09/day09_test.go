@@ -7,7 +7,6 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 var test_input = "2333133121414131402"
 var disk_space = []int8{2, 3, 3, 3, 1, 3, 3, 1, 2, 1, 4, 1, 4, 1, 3, 1, 4, 0, 2}
 

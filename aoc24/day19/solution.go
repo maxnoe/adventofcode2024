@@ -8,12 +8,10 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 type OnsenWishlist struct {
-	Patterns []string 
-	Towels []string
+	Patterns []string
+	Towels   []string
 }
-
 
 func Parse(input string) (OnsenWishlist, error) {
 	parts := strings.Split(strings.TrimSpace(input), "\n\n")
@@ -56,9 +54,9 @@ func CountPossibilities(towel string, patterns []string) int {
 	matches := make(map[int][]string)
 
 	for _, pattern := range patterns {
-		
+
 		start := 0
-		for start < len(towel)  {
+		for start < len(towel) {
 			offset := strings.Index(towel[start:], pattern)
 			if offset == -1 {
 				break
@@ -72,7 +70,6 @@ func CountPossibilities(towel string, patterns []string) int {
 
 	return CountPossibilitiesMatches(towel, matches, 0, make(map[int]int))
 }
-
 
 func Part1(wishlist OnsenWishlist) (int, error) {
 	n := aoc24.CountTrueFunc(wishlist.Towels, func(t string) bool {

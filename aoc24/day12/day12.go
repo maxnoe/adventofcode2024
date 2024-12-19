@@ -6,15 +6,13 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 func Parse(input string) ([]string, error) {
 	return strings.Split(strings.TrimSpace(input), "\n"), nil
 }
 
-
 type Region struct {
-	Plant byte
-	Area int
+	Plant     byte
+	Area      int
 	Perimeter int
 }
 
@@ -39,11 +37,10 @@ func FindRegions(plots []string) ([]Region, [][]int) {
 	}
 
 	regions := make([]Region, 0)
-	current_region_id :=  0
+	current_region_id := 0
 	for r := range n_rows {
 		for c := range n_cols {
 			pos := Pos{r, c}
-			
 
 			if region_map[r][c] != 0 {
 				continue
@@ -99,4 +96,3 @@ func Part2(plots []string) (int, error) {
 func init() {
 	aoc24.AddSolution(12, Parse, Part1, Part2)
 }
-

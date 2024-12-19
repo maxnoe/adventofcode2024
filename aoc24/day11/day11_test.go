@@ -6,14 +6,11 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 var test_input = `125 17`
-
 
 func TestEvolve(t *testing.T) {
 	stones, err := Parse(test_input)
 	aoc24.AssertEqual(t, err, nil)
-
 
 	aoc24.AssertEqual(t, NumStones(stones, 0), 2)
 	aoc24.AssertEqual(t, NumStones(stones, 1), 3)

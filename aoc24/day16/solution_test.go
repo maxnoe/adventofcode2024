@@ -6,7 +6,6 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 var test_input_1 = `
 ###############
 #.......#....E#

@@ -6,7 +6,6 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 var test_input = `
 89010123
 78121874
@@ -17,7 +16,6 @@ var test_input = `
 01329801
 10456732
 `
-
 
 func TestScore(t *testing.T) {
 	grid, _ := Parse(test_input)

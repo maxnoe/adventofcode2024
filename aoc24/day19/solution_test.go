@@ -6,7 +6,6 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 var test_input = `
 r, wr, b, g, bwu, rb, gb, br
 
@@ -24,7 +23,7 @@ func TestCount(t *testing.T) {
 	wishlist, err := Parse(test_input)
 	aoc24.AssertEqual(t, err, nil)
 
-	expected := []int {2, 1, 4, 6, 0, 1, 2, 0}
+	expected := []int{2, 1, 4, 6, 0, 1, 2, 0}
 
 	for i, n := range expected {
 		if r := CountPossibilities(wishlist.Towels[i], wishlist.Patterns); r != n {

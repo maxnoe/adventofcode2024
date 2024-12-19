@@ -6,7 +6,6 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 var test_input = `
 190: 10 19
 3267: 81 40 27
@@ -19,14 +18,12 @@ var test_input = `
 292: 11 6 16 20
 `
 
-
 func TestPart1(t *testing.T) {
 	eqs, err := Parse(test_input)
 	aoc24.AssertEqual(t, err, nil)
 	result, err := Part1(eqs)
 	aoc24.AssertEqual(t, result, 3749)
 }
-
 
 func TestCombiner(t *testing.T) {
 	aoc24.AssertEqual(t, Combine(15, 6), 156)
@@ -41,4 +38,3 @@ func TestPart2(t *testing.T) {
 	result, err := Part2(eqs)
 	aoc24.AssertEqual(t, result, 11387)
 }
-

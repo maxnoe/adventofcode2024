@@ -7,7 +7,6 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 func Parse(input string) ([]int8, error) {
 	input = strings.TrimSpace(input)
 	disk_space := make([]int8, len(input))
@@ -18,7 +17,6 @@ func Parse(input string) ([]int8, error) {
 
 	return disk_space, nil
 }
-
 
 func sum(numbers []int8) int {
 	s := 0
@@ -62,26 +60,25 @@ func Compact(blocks []int) {
 	}
 }
 
-
 func Part1(disk_space []int8) (int, error) {
 	n_blocks := sum(disk_space)
 	blocks := make([]int, n_blocks)
 	log.Printf("n_blocks = %d", n_blocks)
-	
+
 	block := 0
 	file_id := 0
 	for i, size := range disk_space {
 
 		fill := file_id
-		if i % 2 == 1 {
-			fill = -1	
+		if i%2 == 1 {
+			fill = -1
 		}
 
 		for j := range size {
-			blocks[block + int(j)] = fill
+			blocks[block+int(j)] = fill
 		}
 
-		if i % 2 == 0 {
+		if i%2 == 0 {
 			file_id += 1
 		}
 		block += int(size)

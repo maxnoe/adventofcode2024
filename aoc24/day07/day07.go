@@ -9,13 +9,10 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 type Equation struct {
-	Value int
+	Value   int
 	Numbers []int
 }
-
-
 
 func Parse(input string) ([]Equation, error) {
 	lines := strings.Split(strings.TrimSpace(input), "\n")
@@ -27,14 +24,18 @@ func Parse(input string) ([]Equation, error) {
 			return nil, fmt.Errorf("Could not parse line %d: %s", i, line)
 		}
 		value, err := strconv.Atoi(parts[0])
-		if err != nil {return nil, err}
+		if err != nil {
+			return nil, err
+		}
 
 		numbers := strings.Fields(parts[1])
 		equation := Equation{value, make([]int, len(numbers))}
 
 		for i, number := range numbers {
 			value, err := strconv.Atoi(number)
-			if err != nil {return nil, err}
+			if err != nil {
+				return nil, err
+			}
 			equation.Numbers[i] = value
 		}
 
@@ -49,7 +50,7 @@ func IsValidRec(value int, current int, numbers []int, combine bool) bool {
 		return value == current
 	}
 
-	if IsValidRec(value, current + numbers[0], numbers[1:], combine) {
+	if IsValidRec(value, current+numbers[0], numbers[1:], combine) {
 		return true
 	}
 	if combine {
@@ -57,12 +58,11 @@ func IsValidRec(value int, current int, numbers []int, combine bool) bool {
 			return true
 		}
 	}
-	return IsValidRec(value, current * numbers[0], numbers[1:], combine)
+	return IsValidRec(value, current*numbers[0], numbers[1:], combine)
 }
 
-
 func IsValid(eq Equation, combine bool) bool {
-	if IsValidRec(eq.Value, eq.Numbers[0] + eq.Numbers[1], eq.Numbers[2:], combine) {
+	if IsValidRec(eq.Value, eq.Numbers[0]+eq.Numbers[1], eq.Numbers[2:], combine) {
 		return true
 	}
 	if combine {
@@ -70,14 +70,13 @@ func IsValid(eq Equation, combine bool) bool {
 			return true
 		}
 	}
-	return IsValidRec(eq.Value, eq.Numbers[0] * eq.Numbers[1], eq.Numbers[2:], combine)
+	return IsValidRec(eq.Value, eq.Numbers[0]*eq.Numbers[1], eq.Numbers[2:], combine)
 }
 
 func Combine(val1 int, val2 int) int {
 	n := 1 + int(math.Log10(float64(val2)))
-	return val1 * int(math.Pow10(n)) + val2
+	return val1*int(math.Pow10(n)) + val2
 }
-
 
 func CountValid(eqs []Equation, combine bool) (int, error) {
 	n := 0
@@ -97,7 +96,6 @@ func Part1(eqs []Equation) (int, error) {
 func Part2(eqs []Equation) (int, error) {
 	return CountValid(eqs, true)
 }
-
 
 func init() {
 	aoc24.AddSolution(7, Parse, Part1, Part2)

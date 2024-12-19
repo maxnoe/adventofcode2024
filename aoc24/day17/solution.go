@@ -194,7 +194,7 @@ func Parse(input string) (Machine, error) {
 		}
 		program[i] = val
 	}
-	
+
 	m := Machine{A, B, C, program, 0, nil}
 	m.PrintProgram()
 	return m, nil

@@ -15,36 +15,35 @@ type Pair struct {
 }
 
 type Game struct {
-	a Pair
-	b Pair
+	a     Pair
+	b     Pair
 	prize Pair
 }
 
 func DivOk(nom int, denom int) (int, bool) {
-	return nom / denom, nom % denom == 0
+	return nom / denom, nom%denom == 0
 }
 
 func (game Game) Cost(offset int) (int, bool) {
 	x := game.prize.x + offset
 	y := game.prize.y + offset
 
-	nom := y * game.a.x - x * game.a.y
-	denom := game.a.x * game.b.y - game.b.x * game.a.y
+	nom := y*game.a.x - x*game.a.y
+	denom := game.a.x*game.b.y - game.b.x*game.a.y
 	b, ok := DivOk(nom, denom)
 	if !ok {
 		return 0, false
 	}
-	a, ok := DivOk(x - b * game.b.x, game.a.x)
+	a, ok := DivOk(x-b*game.b.x, game.a.x)
 	if !ok {
 		return 0, false
 	}
 
-	return 3 * a + b, true
+	return 3*a + b, true
 }
 
 var button_re = regexp.MustCompile("Button [AB]: X[+](\\d+), Y[+](\\d+)")
 var prize_re = regexp.MustCompile("Prize: X=(\\d+), Y=(\\d+)")
-
 
 func ParseRe(re *regexp.Regexp, s string) (Pair, error) {
 	matches := re.FindStringSubmatch(s)
@@ -68,20 +67,28 @@ func ParseGame(s string) (Game, error) {
 		return Game{}, fmt.Errorf("Expected 3 lines for game input, got '%s'", s)
 	}
 	a, err := ParseRe(button_re, lines[0])
-	if err != nil {return Game{}, err}
+	if err != nil {
+		return Game{}, err
+	}
 	b, err := ParseRe(button_re, lines[1])
-	if err != nil {return Game{}, err}
+	if err != nil {
+		return Game{}, err
+	}
 	prize, err := ParseRe(prize_re, lines[2])
-	if err != nil {return Game{}, err}
+	if err != nil {
+		return Game{}, err
+	}
 	return Game{a, b, prize}, nil
 }
 
-func Parse(input string) ([]Game, error)  {
+func Parse(input string) ([]Game, error) {
 	descs := strings.Split(strings.TrimSpace(input), "\n\n")
 	games := make([]Game, len(descs))
 	for i, desc := range descs {
 		game, err := ParseGame(desc)
-		if err != nil {return nil, err}
+		if err != nil {
+			return nil, err
+		}
 		games[i] = game
 	}
 	return games, nil
@@ -98,7 +105,6 @@ func TotalCost(games []Game, offset int) (int, error) {
 	return n, nil
 }
 
-
 func Part1(games []Game) (int, error) {
 	return TotalCost(games, 0)
 }
@@ -107,7 +113,6 @@ func Part2(games []Game) (int, error) {
 	offset := 10000000000000
 	return TotalCost(games, offset)
 }
-
 
 func init() {
 	aoc24.AddSolution(13, Parse, Part1, Part2)

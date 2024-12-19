@@ -43,4 +43,4 @@ func TestCost(t *testing.T) {
 	cost, ok = test_games[3].Cost()
 	aoc24.AssertEqual(t, ok, false)
 	aoc24.AssertEqual(t, cost, 0)
-} 
+}

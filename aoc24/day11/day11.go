@@ -15,7 +15,6 @@ type pair struct {
 
 var cache = make(map[pair]int)
 
-
 func Parse(input string) ([]int, error) {
 	fields := strings.Fields(strings.TrimSpace(input))
 	stones := make([]int, len(fields))
@@ -29,7 +28,6 @@ func Parse(input string) ([]int, error) {
 	return stones, nil
 }
 
-
 func NumDigits(i int) int {
 	return int(math.Log10(float64(i)) + 1)
 }
@@ -39,32 +37,30 @@ func Split(stone int, digits int) pair {
 	return pair{stone / p, stone % p}
 }
 
-
 func Evolve(stone int, blinks int) int {
 	key := pair{stone, blinks}
 	if val, ok := cache[key]; ok {
 		return val
 	}
-	
+
 	if blinks == 0 {
 		return 1
 	}
 
 	result := 0
 	if stone == 0 {
-		result = Evolve(1, blinks - 1)
-	} else if digits := NumDigits(stone); digits % 2 == 0 {
+		result = Evolve(1, blinks-1)
+	} else if digits := NumDigits(stone); digits%2 == 0 {
 		split := Split(stone, digits)
-		result = Evolve(split.a, blinks - 1) + Evolve(split.b, blinks - 1)
+		result = Evolve(split.a, blinks-1) + Evolve(split.b, blinks-1)
 	} else {
-		result = Evolve(2024 * stone, blinks - 1)
+		result = Evolve(2024*stone, blinks-1)
 	}
 
 	cache[key] = result
 	return result
 
 }
-
 
 func NumStones(stones []int, blinks int) int {
 	total := 0
@@ -73,7 +69,6 @@ func NumStones(stones []int, blinks int) int {
 	}
 	return total
 }
-
 
 func Part1(stones []int) (int, error) {
 	return NumStones(stones, 25), nil

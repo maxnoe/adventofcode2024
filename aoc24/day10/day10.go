@@ -6,7 +6,6 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 func Parse(input string) ([][]int8, error) {
 	lines := strings.Split(strings.TrimSpace(input), "\n")
 
@@ -27,9 +26,7 @@ type Pos struct {
 	C int
 }
 
-
 var DIRECTIONS = [4]Pos{{1, 0}, {0, 1}, {-1, 0}, {0, -1}}
-
 
 func Score(pos Pos, topography [][]int8, trails bool) int {
 	n := 0
@@ -73,10 +70,8 @@ func Score(pos Pos, topography [][]int8, trails bool) int {
 		}
 	}
 
-
 	return n
 }
-
 
 func TotalScore(topography [][]int8, trails bool) int {
 	result := 0
@@ -84,13 +79,12 @@ func TotalScore(topography [][]int8, trails bool) int {
 	for i, row := range topography {
 		for j, val := range row {
 			if val == 0 {
-				result += Score(Pos{i, j}, topography, trails);
+				result += Score(Pos{i, j}, topography, trails)
 			}
 		}
 	}
 	return result
 }
-
 
 func Part1(topography [][]int8) (int, error) {
 	return TotalScore(topography, false), nil
