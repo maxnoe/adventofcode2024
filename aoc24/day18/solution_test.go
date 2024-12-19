@@ -39,5 +39,16 @@ func TestPart1(t *testing.T) {
 	positions, err := Parse(testInput)
 	aoc24.AssertEqual(t, err, nil)
 
-	aoc24.AssertEqual(t, part1Impl(6, 6, positions[:12]), 22)
+	aoc24.AssertEqual(t, findShortestPath(6, 6, positions[:12]), 22)
+}
+
+
+func TestPart2(t *testing.T) {
+	positions, err := Parse(testInput)
+	aoc24.AssertEqual(t, err, nil)
+
+	pos, err := part2Impl(6, 6, positions)
+	aoc24.AssertEqual(t, err, nil)
+	aoc24.AssertEqual(t, pos.X, 6)
+	aoc24.AssertEqual(t, pos.Y, 1)
 }

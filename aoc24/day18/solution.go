@@ -43,7 +43,7 @@ type Head struct {
 	length int
 }
 
-func part1Impl(cols int, rows int, positions []Pos) int {
+func findShortestPath(cols int, rows int, positions []Pos) int {
 	corrupt := make(map[Pos]struct{})
 	for _, pos := range positions {
 		corrupt[pos] = struct{}{}
@@ -81,16 +81,29 @@ func part1Impl(cols int, rows int, positions []Pos) int {
 			to_check = append(to_check, Head{n, head.length + 1})
 		}
 	}
-	return 0
+	return -1
 }
 
 
 func Part1(positions []Pos) (int, error) {
-	return part1Impl(70, 70, positions[:1024]), nil
+	return findShortestPath(70, 70, positions[:1024]), nil
 }
 
-func Part2(positions []Pos) (int, error) {
-	return 0, nil
+func part2Impl(cols int, rows int, positions []Pos) (Pos, error) {
+	for i, pos := range positions {
+		if findShortestPath(cols, rows, positions[:i+1]) == -1 {
+			return pos, nil
+		}
+	}
+	return Pos{}, fmt.Errorf("Did not find a byte blocking path")
+}
+
+func Part2(positions []Pos) (string, error) {
+	pos, err := part2Impl(70, 70, positions)
+	if err != nil {
+		return "", err
+	}
+	return strconv.Itoa(pos.X) + "," + strconv.Itoa(pos.Y), nil
 }
 
 func init() {
