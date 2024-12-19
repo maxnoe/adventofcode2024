@@ -61,3 +61,12 @@ func GCD(a int, b int) int {
 	b = tmp % a
 	return GCD(a, b)
 }
+
+
+func CopyAppend[T any](sl []T, pos T) []T {
+	out := make([]T, len(sl)+1)
+	copy(out, sl)
+	out[len(out)-1] = pos
+	return out
+}
+

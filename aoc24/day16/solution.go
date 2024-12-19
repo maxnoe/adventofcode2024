@@ -83,13 +83,6 @@ func Cost(current Direction, wanted Direction) int {
 	return 1001
 }
 
-func CopyAppend(path []Pos, pos Pos) []Pos {
-	out := make([]Pos, len(path)+1)
-	copy(out, path)
-	out[len(out)-1] = pos
-	return out
-}
-
 func FindBestPaths(maze Maze) []PathHead {
 	visited := make(map[State]int)
 
@@ -134,7 +127,7 @@ func FindBestPaths(maze Maze) []PathHead {
 			}
 
 			cost := Cost(head.S.Dir, dir)
-			proposal := PathHead{State{n, dir}, head.Cost + cost, CopyAppend(head.History, n)}
+			proposal := PathHead{State{n, dir}, head.Cost + cost, aoc24.CopyAppend(head.History, n)}
 			to_check = append(to_check, proposal)
 		}
 	}
