@@ -69,6 +69,15 @@ func AnyFunc[T any](inputs []T, f func(T) bool) bool {
 	return false
 }
 
+func AllFunc[T any](inputs []T, f func(T) bool) bool {
+	for _, input := range inputs {
+		if !f(input) {
+			return false
+		}
+	}
+	return true
+}
+
 func GCD(a int, b int) int {
 	if b == 0 {
 		return a
@@ -79,7 +88,6 @@ func GCD(a int, b int) int {
 	return GCD(a, b)
 }
 
-
 func CopyAppend[T any](sl []T, pos T) []T {
 	out := make([]T, len(sl)+1)
 	copy(out, sl)
@@ -87,11 +95,26 @@ func CopyAppend[T any](sl []T, pos T) []T {
 	return out
 }
 
+func CopyMap[K comparable, V any](m map[K]V) map[K]V {
+	cp := make(map[K]V)
+	for k, v := range m {
+		cp[k] = v
+	}
+	return cp
+}
+
+func CopyAdd[K comparable, V any](m map[K]V, k K, v V) map[K]V {
+	cp := CopyMap(m)
+	cp[k] = v
+	return cp
+}
 
 func PopMap[K comparable, V any](m map[K]V) (K, V) {
 	var k K
 	var v V
-	for k, v = range m {break}
+	for k, v = range m {
+		break
+	}
 	delete(m, k)
 	return k, v
 }

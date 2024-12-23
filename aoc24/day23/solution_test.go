@@ -6,7 +6,6 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 var test_input = `
 kh-tc
 qp-kh
@@ -49,4 +48,13 @@ func TestPart1(t *testing.T) {
 	answer, err := Part1(conns)
 	aoc24.AssertEqual(t, err, nil)
 	aoc24.AssertEqual(t, answer, 7)
+}
+
+func TestPart2(t *testing.T) {
+	conns, err := Parse(test_input)
+	aoc24.AssertEqual(t, err, nil)
+
+	answer, err := Part2(conns)
+	aoc24.AssertEqual(t, err, nil)
+	aoc24.AssertEqual(t, answer, "co,de,ka,ta")
 }
