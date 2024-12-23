@@ -75,7 +75,7 @@ func CountPossibilities(towel string, patterns []string) int {
 }
 
 func Part1(possibilities []int) (int, error) {
-	n := aoc24.CountTrueFunc(possibilities, func(n int) bool { return n != 0})
+	n := aoc24.CountTrueFunc(possibilities, func(n int) bool { return n != 0 })
 	return n, nil
 }
 

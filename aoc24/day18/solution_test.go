@@ -6,7 +6,6 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 var testInput = `
 5,4
 4,2
@@ -41,7 +40,6 @@ func TestPart1(t *testing.T) {
 
 	aoc24.AssertEqual(t, findShortestPath(6, 6, positions[:12]), 22)
 }
-
 
 func TestPart2(t *testing.T) {
 	positions, err := Parse(testInput)

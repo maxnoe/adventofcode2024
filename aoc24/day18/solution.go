@@ -8,7 +8,6 @@ import (
 	"github.com/maxnoe/adventofcode2024/aoc24"
 )
 
-
 type Pos struct {
 	X int
 	Y int
@@ -39,7 +38,7 @@ func Parse(input string) ([]Pos, error) {
 var directions = []Pos{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}
 
 type Head struct {
-	pos Pos
+	pos    Pos
 	length int
 }
 
@@ -65,7 +64,7 @@ func findShortestPath(cols int, rows int, positions []Pos) int {
 
 		for _, d := range directions {
 			n := Pos{pos.X + d.X, pos.Y + d.Y}
-			
+
 			if n.X == cols && n.Y == rows {
 				return head.length
 			}
@@ -83,7 +82,6 @@ func findShortestPath(cols int, rows int, positions []Pos) int {
 	}
 	return -1
 }
-
 
 func Part1(positions []Pos) (int, error) {
 	return findShortestPath(70, 70, positions[:1024]), nil
