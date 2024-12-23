@@ -60,6 +60,15 @@ func CountTrueFunc[T any](inputs []T, f func(T) bool) int {
 	return count
 }
 
+func AnyFunc[T any](inputs []T, f func(T) bool) bool {
+	for _, input := range inputs {
+		if f(input) {
+			return true
+		}
+	}
+	return false
+}
+
 func GCD(a int, b int) int {
 	if b == 0 {
 		return a
@@ -78,3 +87,11 @@ func CopyAppend[T any](sl []T, pos T) []T {
 	return out
 }
 
+
+func PopMap[K comparable, V any](m map[K]V) (K, V) {
+	var k K
+	var v V
+	for k, v = range m {break}
+	delete(m, k)
+	return k, v
+}
